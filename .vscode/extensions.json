@@ -1,0 +1,16 @@
+{
+  "recommendations": [
+    "wmaurer.change-case",
+    "ms-ceintl.vscode-language-pack-zh-hans",
+    "streetsidesoftware.code-spell-checker",
+    "jingwang37.element-plus-snippets",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "christian-kohler.path-intellisense",
+    "cweijan.vscode-redis-client",
+    "vue.vscode-typescript-vue-plugin",
+    "hollowtree.vue-snippets",
+    "vue.volar",
+    "sdras.vue-vscode-snippets"
+  ]
+}

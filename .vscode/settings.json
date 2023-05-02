@@ -1,0 +1,60 @@
+{
+  "eslint.format.enable": true,
+  "[vue]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "eslint.run": "onType",
+  "path-intellisense.mappings": {
+    "@": "${workspaceRoot}/src"
+  },
+  "editor.tabSize": 2,
+  "editor.detectIndentation": true,
+  "cSpell.words": [
+    "daterange",
+    "headimg",
+    "mchid",
+    "monthrange",
+    "spbill",
+    "sqljs",
+    "tenpay",
+    "yearrange",
+    "zans"
+  ],
+  "eslint.enable": true,
+  "terminal.integrated.tabs.enabled": true,
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "editor.semanticHighlighting.enabled": true,
+  "editor.unicodeHighlight.nonBasicASCII": false,
+  "workbench.editorAssociations": {
+    "*.dblg": "default",
+    "*.db": "default"
+  },
+  "cSpell.userWords": [
+    "errcode",
+    "errmsg",
+    "jssdk",
+    "unionid",
+    "wechat",
+    "Weixin",
+    "wexin"
+  ],
+  "git.autofetch": true,
+  "git.ignoreLegacyWarning": true,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.confirmDelete": false,
+  "gitlens.advanced.messages": {
+    "suppressGitVersionWarning": true
+  },
+  "emmet.triggerExpansionOnTab": true,
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "diffEditor.ignoreTrimWhitespace": false
+}
