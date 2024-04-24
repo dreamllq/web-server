@@ -22,7 +22,6 @@ import { AddressModule } from './address/address.module';
 import { AreaModule } from './area/area.module';
 import { ForumModule } from './forum/forum.module';
 import { MallModule } from './mall/mall.module';
-import { MessageModule } from './message/message.module';
 import { WeixinOfficialAccountNotifyModule } from './weixin-platform/weixin-official-account-notify/weixin-official-account-notify.module';
 import { WeixinPlatformUserModule } from './weixin-platform/weixin-platform-user/weixin-platform-user.module';
 import { ChatModule } from './chat/chat.module';
@@ -82,22 +81,21 @@ import { LogModule } from './log/log.module';
     WeixinOfficialAccountModule,
     WeixinOfficialAccountOauthModule,
     WeixinMiniProgramModule,
-    AddressModule,
-    AreaModule,
     WeixinPlatformUserModule,
-    ForumModule,
-    MallModule,
-    MessageModule,
     WeixinOfficialAccountNotifyModule,
-    ChatModule,
     WeixinPayCenterNotifyModule,
     WeixinPayCenterModule,
-    WsMessageChannelModule,
-    SmsMessageChannelModule,
-    WxMessageChannelModule,
-    WsMessageChannelQueueModule,
+    AddressModule,
+    AreaModule,
+    ForumModule,
+    MallModule,
+    ChatModule,
     WsMessageModule,
+    WsMessageChannelModule,
+    WsMessageChannelQueueModule,
+    SmsMessageChannelModule,
     SmsMessageChannelQueueModule,
+    WxMessageChannelModule,
     WxMessageChannelQueueModule,
     DepartmentModule,
     LogModule

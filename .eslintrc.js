@@ -110,5 +110,6 @@ module.exports = {
     'func-call-spacing': ['error', 'never'],
     'comma-dangle': ['warn', 'never'],
     'no-prototype-builtins': 'warn',
+    '@typescript-eslint/no-var-requires':'off'
   },
 };
