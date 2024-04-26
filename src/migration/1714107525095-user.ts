@@ -1,7 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-const user = [];
-
 export class User1714107525095 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
