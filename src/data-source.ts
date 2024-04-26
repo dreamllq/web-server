@@ -2,11 +2,11 @@ import { DataSource } from 'typeorm';
 
 export const AppDataSource = new DataSource({
   type: 'mysql',
-  host: '842bdf3688de.c.methodot.com',
-  port: 31483,
+  host: 'd859a673fcb2.c.methodot.com',
+  port: 30486,
   username: 'root',
   password: '123456',
   database: 'test',
   'entities': [],
-  'migrations': ['src/migration/*{.ts,.js}']
+  'migrations': [__dirname + '/migration/*.js']
 });
