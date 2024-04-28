@@ -21,3 +21,7 @@ dev环境启动前复制 .env.default => .env.test
 ## sms
 
 ### te
+
+## 信息
+
+- 省市区数据：https://github.com/xiangyuecn/AreaCity-JsSpider-StatsGov
