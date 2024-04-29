@@ -37,6 +37,7 @@ import { SmsMessageChannelQueueModule } from './message-channel/sms-message-chan
 import { WxMessageChannelQueueModule } from './message-channel/wx-message-channel-queue/wx-message-channel-queue.module';
 import { DepartmentModule } from './department/department.module';
 import { LogModule } from './log/log.module';
+import { AiModule } from './ai/ai.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -98,7 +99,8 @@ import { LogModule } from './log/log.module';
     WxMessageChannelModule,
     WxMessageChannelQueueModule,
     DepartmentModule,
-    LogModule
+    LogModule,
+    AiModule
   ],
   controllers: [AppController],
   providers: [AppService]
