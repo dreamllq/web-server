@@ -1,7 +1,11 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { AiBaiduAccount } from '../entities/ai-baidu-account.entity';
 
 export class AiBaiduAccountGetAllResponse {
-  code: number;
-  message: string;
-  data: AiBaiduAccount[];
+  @ApiProperty()
+    code: number;
+  @ApiProperty()
+    message: string;
+  @ApiProperty({ type: [AiBaiduAccount] })
+    data: AiBaiduAccount[];
 }

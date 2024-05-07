@@ -46,7 +46,6 @@ export class AiBaiduAccountService {
   }
 
   async paginate(options: IPaginationOptions) {
-
     const [list, count] = await this.aiBaiduAccountRepository.findAndCount({
       order: { createDate: 'DESC' },
       skip: (options.pageNo - 1) * options.pageSize,

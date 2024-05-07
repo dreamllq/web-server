@@ -29,7 +29,7 @@ export class AiBaiduAccountController {
   }
 
   @ApiOperation({
-    summary: '获取所有报读账号信息',
+    summary: '获取所有百度账号信息',
     operationId: 'getAll'
   })
   @ApiOkResponse({ type: AiBaiduAccountGetAllResponse })
