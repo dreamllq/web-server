@@ -7,6 +7,12 @@ export class CreateAiBaiduServiceDto {
   @IsString()
     name:string;
 
+  @ApiProperty({ description: '接口endpoint' })
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+    endpoint:string;
+
   @ApiProperty({ description: '接口path' })
   @ApiPropertyOptional()
   @IsOptional()

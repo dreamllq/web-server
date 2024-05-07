@@ -16,6 +16,10 @@ export class AiBaiduService {
   })
     name: string;
 
+  @ApiProperty({ description: '接口endpoint' })
+  @Column({ nullable: true })
+    endpoint: string;
+
   @ApiProperty({ description: '接口path' })
   @Column({ nullable: true })
     path: string;

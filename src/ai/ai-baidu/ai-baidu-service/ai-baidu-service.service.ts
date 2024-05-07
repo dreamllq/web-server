@@ -16,6 +16,7 @@ export class AiBaiduServiceService {
   create(createAiBaiduServiceDto: CreateAiBaiduServiceDto, options:{creator:string}) {
     return this.aiBaiduServiceRepository.insert({
       name: createAiBaiduServiceDto.name,
+      endpoint: createAiBaiduServiceDto.endpoint,
       path: createAiBaiduServiceDto.path,
       type: { id: createAiBaiduServiceDto.typeId },
       creator: { id: options.creator }
@@ -44,6 +45,7 @@ export class AiBaiduServiceService {
   update(id: string, updateAiBaiduServiceDto: UpdateAiBaiduServiceDto) {
     return this.aiBaiduServiceRepository.update(id, {
       name: updateAiBaiduServiceDto.name,
+      endpoint: updateAiBaiduServiceDto.endpoint,
       path: updateAiBaiduServiceDto.path,
       type: { id: updateAiBaiduServiceDto.typeId }
     });
