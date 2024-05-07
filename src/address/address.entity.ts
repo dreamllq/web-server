@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Area } from 'src/area/area.entity';
 import { User } from 'src/users/user.entity';
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class Address {
