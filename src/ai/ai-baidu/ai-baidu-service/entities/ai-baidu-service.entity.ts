@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { AiServiceType } from 'src/ai/ai-common/ai-service-type/entities/ai-service-type.entity';
 import { User } from 'src/users/user.entity';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
@@ -18,6 +19,11 @@ export class AiBaiduService {
   @ApiProperty({ description: '接口path' })
   @Column({ nullable: true })
     path: string;
+
+  @ApiProperty({ type: () => AiServiceType })
+  @ManyToOne(() => AiServiceType)
+  @JoinColumn()
+    type: AiServiceType; 
 
   @ApiProperty({ type: () => User })
   @ManyToOne(() => User)

@@ -12,4 +12,9 @@ export class CreateAiBaiduServiceDto {
   @IsOptional()
   @IsString()
     path:string;
+
+  @ApiProperty({ description: '服务类型' })
+  @IsNotEmpty()
+  @IsString()
+    typeId:string;
 }

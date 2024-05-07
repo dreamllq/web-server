@@ -17,25 +17,35 @@ export class AiBaiduServiceService {
     return this.aiBaiduServiceRepository.insert({
       name: createAiBaiduServiceDto.name,
       path: createAiBaiduServiceDto.path,
+      type: { id: createAiBaiduServiceDto.typeId },
       creator: { id: options.creator }
     });
   }
 
   findAll() {
-    return this.aiBaiduServiceRepository.find({ relations: { creator: true } });
+    return this.aiBaiduServiceRepository.find({
+      relations: {
+        creator: true,
+        type: true 
+      } 
+    });
   }
 
   findOne(id: string) {
     return this.aiBaiduServiceRepository.findOne({
       where: { id },
-      relations: { creator: true } 
+      relations: {
+        creator: true,
+        type: true 
+      } 
     });
   }
 
   update(id: string, updateAiBaiduServiceDto: UpdateAiBaiduServiceDto) {
     return this.aiBaiduServiceRepository.update(id, {
       name: updateAiBaiduServiceDto.name,
-      path: updateAiBaiduServiceDto.path
+      path: updateAiBaiduServiceDto.path,
+      type: { id: updateAiBaiduServiceDto.typeId }
     });
   }
 
@@ -48,7 +58,10 @@ export class AiBaiduServiceService {
       order: { createDate: 'DESC' },
       skip: (options.pageNo - 1) * options.pageSize,
       take: options.pageSize,
-      relations: { creator: true }
+      relations: {
+        creator: true,
+        type: true 
+      }
     });
     return {
       list,
