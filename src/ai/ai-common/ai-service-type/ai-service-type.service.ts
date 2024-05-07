@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAiServiceTypeDto } from './dto/create-ai-service-type.dto';
 import { UpdateAiServiceTypeDto } from './dto/update-ai-service-type.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { AiServiceType } from './entities/ai-service-type.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AiServiceTypeService {
+  constructor(
+    @InjectRepository(AiServiceType)
+    private aiServiceTypeRepository: Repository<AiServiceType>,
+  ) {}
+  
   create(createAiServiceTypeDto: CreateAiServiceTypeDto) {
-    return 'This action adds a new aiServiceType';
+    return this.aiServiceTypeRepository.insert({ name: createAiServiceTypeDto.name });
   }
 
   findAll() {
-    return `This action returns all aiServiceType`;
+    return this.aiServiceTypeRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} aiServiceType`;
+  findOne(id: string) {
+    return this.aiServiceTypeRepository.findOne({ where: { id } });
   }
 
-  update(id: number, updateAiServiceTypeDto: UpdateAiServiceTypeDto) {
-    return `This action updates a #${id} aiServiceType`;
+  update(id: string, updateAiServiceTypeDto: UpdateAiServiceTypeDto) {
+    return this.aiServiceTypeRepository.update(id, { name: updateAiServiceTypeDto.name });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} aiServiceType`;
+  remove(id: string) {
+    return this.aiServiceTypeRepository.delete(id);
   }
 }
