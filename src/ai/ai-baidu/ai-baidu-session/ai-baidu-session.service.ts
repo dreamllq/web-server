@@ -41,7 +41,7 @@ export class AiBaiduSessionService {
   }
 
   update(id: string, updateAiBaiduSessionDto: UpdateAiBaiduSessionDto) {
-    return this.aiBaiduSessionRepository.insert({
+    return this.aiBaiduSessionRepository.update(id, {
       name: updateAiBaiduSessionDto.name,
       service: { id: updateAiBaiduSessionDto.serviceId }
     });
