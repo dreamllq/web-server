@@ -8,7 +8,7 @@ describe('AiBaiduMessageController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AiBaiduMessageController],
-      providers: [AiBaiduMessageService],
+      providers: [AiBaiduMessageService]
     }).compile();
 
     controller = module.get<AiBaiduMessageController>(AiBaiduMessageController);
