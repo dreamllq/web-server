@@ -16,6 +16,7 @@ export class AiBaiduSessionService {
   create(createAiBaiduSessionDto: CreateAiBaiduSessionDto, options:{creator:string}) {
     return this.aiBaiduSessionRepository.insert({
       name: createAiBaiduSessionDto.name,
+      account: { id: createAiBaiduSessionDto.accountId },
       service: { id: createAiBaiduSessionDto.serviceId },
       creator: { id: options.creator }
     });
@@ -25,7 +26,8 @@ export class AiBaiduSessionService {
     return this.aiBaiduSessionRepository.find({
       relations: {
         creator: true,
-        service: true 
+        service: true,
+        account: true
       } 
     });
   }
@@ -35,7 +37,8 @@ export class AiBaiduSessionService {
       where: { id },
       relations: {
         creator: true,
-        service: true 
+        service: true,
+        account: true
       } 
     });
   }
@@ -43,7 +46,8 @@ export class AiBaiduSessionService {
   update(id: string, updateAiBaiduSessionDto: UpdateAiBaiduSessionDto) {
     return this.aiBaiduSessionRepository.update(id, {
       name: updateAiBaiduSessionDto.name,
-      service: { id: updateAiBaiduSessionDto.serviceId }
+      service: { id: updateAiBaiduSessionDto.serviceId },
+      account: { id: updateAiBaiduSessionDto.accountId }
     });
   }
 
@@ -58,7 +62,8 @@ export class AiBaiduSessionService {
       take: options.pageSize,
       relations: {
         creator: true,
-        service: true 
+        service: true,
+        account: true
       }
     });
     return {

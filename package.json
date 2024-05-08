@@ -26,6 +26,7 @@
     "@alicloud/openapi-client": "^0.4.5",
     "@alicloud/tea-typescript": "^1.8.0",
     "@alicloud/tea-util": "^1.4.5",
+    "@baiducloud/sdk": "^1.0.1-beta.4",
     "@nestjs/bull": "^0.6.3",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.1",

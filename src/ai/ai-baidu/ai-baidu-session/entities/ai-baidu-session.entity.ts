@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { AiBaiduService } from '../../ai-baidu-service/entities/ai-baidu-service.entity';
 import { User } from 'src/users/user.entity';
+import { AiBaiduAccount } from '../../ai-baidu-account/entities/ai-baidu-account.entity';
 
 @Entity()
 export class AiBaiduSession {
@@ -15,6 +16,11 @@ export class AiBaiduSession {
     unique: true 
   })
     name: string;
+
+  @ApiProperty({ type: () => AiBaiduAccount })
+  @ManyToOne(() => AiBaiduAccount)
+  @JoinColumn()
+    account: AiBaiduAccount;
 
   @ApiProperty({ type: () => AiBaiduService })
   @ManyToOne(() => AiBaiduService)

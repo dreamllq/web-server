@@ -7,6 +7,11 @@ export class CreateAiBaiduSessionDto {
   @IsString()
     name:string;
 
+  @ApiProperty({ description: '账号' })
+  @IsNotEmpty()
+  @IsString()
+    accountId:string;
+
   @ApiProperty({ description: '服务' })
   @IsNotEmpty()
   @IsString()

@@ -1,4 +1,4 @@
-import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
@@ -28,5 +28,25 @@ export class WsMessageGateway implements OnGatewayConnection, OnGatewayDisconnec
   
   handleDisconnect(client: Socket) {
     this.logger.log(`[message][disconnect] ${client.id}`);
+  }
+
+  @SubscribeMessage('join-room')
+  joinRoom(
+    @MessageBody('roomId') roomId: string,
+    @ConnectedSocket() client: Socket
+  ):string {
+    this.logger.log(`[message][join-room] ${roomId}`);
+    client.join(roomId);
+    return '';
+  }
+
+  @SubscribeMessage('leave-room')
+  leaveRoom(
+    @MessageBody('roomId') roomId: string,
+    @ConnectedSocket() client: Socket
+  ):string {
+    this.logger.log(`[message][leave-room] ${roomId}`);
+    client.leave(roomId);
+    return '';
   }
 }
