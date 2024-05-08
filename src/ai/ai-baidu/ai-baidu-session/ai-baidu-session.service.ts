@@ -1,26 +1,69 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAiBaiduSessionDto } from './dto/create-ai-baidu-session.dto';
 import { UpdateAiBaiduSessionDto } from './dto/update-ai-baidu-session.dto';
+import { AiBaiduSession } from './entities/ai-baidu-session.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { IPaginationOptions } from 'src/types';
 
 @Injectable()
 export class AiBaiduSessionService {
-  create(createAiBaiduSessionDto: CreateAiBaiduSessionDto) {
-    return 'This action adds a new aiBaiduSession';
+  constructor(
+    @InjectRepository(AiBaiduSession)
+    private aiBaiduSessionRepository: Repository<AiBaiduSession>,
+  ) {}
+
+  create(createAiBaiduSessionDto: CreateAiBaiduSessionDto, options:{creator:string}) {
+    return this.aiBaiduSessionRepository.insert({
+      name: createAiBaiduSessionDto.name,
+      service: { id: createAiBaiduSessionDto.serviceId },
+      creator: { id: options.creator }
+    });
   }
 
   findAll() {
-    return `This action returns all aiBaiduSession`;
+    return this.aiBaiduSessionRepository.find({
+      relations: {
+        creator: true,
+        service: true 
+      } 
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} aiBaiduSession`;
+  findOne(id: string) {
+    return this.aiBaiduSessionRepository.findOne({
+      where: { id },
+      relations: {
+        creator: true,
+        service: true 
+      } 
+    });
   }
 
-  update(id: number, updateAiBaiduSessionDto: UpdateAiBaiduSessionDto) {
-    return `This action updates a #${id} aiBaiduSession`;
+  update(id: string, updateAiBaiduSessionDto: UpdateAiBaiduSessionDto) {
+    return this.aiBaiduSessionRepository.insert({
+      name: updateAiBaiduSessionDto.name,
+      service: { id: updateAiBaiduSessionDto.serviceId }
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} aiBaiduSession`;
+  remove(id: string) {
+    return this.aiBaiduSessionRepository.delete(id);
+  }
+
+  async paginate(options: IPaginationOptions) {
+    const [list, count] = await this.aiBaiduSessionRepository.findAndCount({
+      order: { createDate: 'DESC' },
+      skip: (options.pageNo - 1) * options.pageSize,
+      take: options.pageSize,
+      relations: {
+        creator: true,
+        service: true 
+      }
+    });
+    return {
+      list,
+      count 
+    };
   }
 }
