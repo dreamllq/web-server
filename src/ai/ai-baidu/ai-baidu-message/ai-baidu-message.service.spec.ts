@@ -5,9 +5,7 @@ describe('AiBaiduMessageService', () => {
   let service: AiBaiduMessageService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [AiBaiduMessageService],
-    }).compile();
+    const module: TestingModule = await Test.createTestingModule({ providers: [AiBaiduMessageService] }).compile();
 
     service = module.get<AiBaiduMessageService>(AiBaiduMessageService);
   });
