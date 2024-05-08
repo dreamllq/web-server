@@ -5,9 +5,7 @@ describe('AiBaiduSessionService', () => {
   let service: AiBaiduSessionService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [AiBaiduSessionService],
-    }).compile();
+    const module: TestingModule = await Test.createTestingModule({ providers: [AiBaiduSessionService] }).compile();
 
     service = module.get<AiBaiduSessionService>(AiBaiduSessionService);
   });

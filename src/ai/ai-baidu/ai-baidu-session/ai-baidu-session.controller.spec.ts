@@ -8,7 +8,7 @@ describe('AiBaiduSessionController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AiBaiduSessionController],
-      providers: [AiBaiduSessionService],
+      providers: [AiBaiduSessionService]
     }).compile();
 
     controller = module.get<AiBaiduSessionController>(AiBaiduSessionController);
