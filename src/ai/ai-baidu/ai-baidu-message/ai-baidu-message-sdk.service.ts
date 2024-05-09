@@ -9,7 +9,7 @@ export class AiBaiduMessageSdkService {
   constructor(
   ) {}
 
-  async chat(message:AiBaiduMessage):Promise<{
+  async chat(message:AiBaiduMessage, messages:{role:string, content:string}[]):Promise<{
     created: string,
     id: string,
     is_truncated: boolean,
@@ -31,14 +31,7 @@ export class AiBaiduMessageSdkService {
     
       const client = new sdk.HttpClient(config);
       const path = message.session.service.path;
-      const body = JSON.stringify({
-        'messages': [
-          {
-            'role': message.role,
-            'content': message.content
-          }
-        ]
-      });
+      const body = JSON.stringify({ 'messages': messages });
     
       const params = {};
       const headers = { 'Content-Type': 'application/json' };

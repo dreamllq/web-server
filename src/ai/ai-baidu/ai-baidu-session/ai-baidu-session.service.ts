@@ -5,12 +5,14 @@ import { AiBaiduSession } from './entities/ai-baidu-session.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { IPaginationOptions } from 'src/types';
+import { AiBaiduMessageService } from '../ai-baidu-message/ai-baidu-message.service';
 
 @Injectable()
 export class AiBaiduSessionService {
   constructor(
     @InjectRepository(AiBaiduSession)
     private aiBaiduSessionRepository: Repository<AiBaiduSession>,
+    private readonly aiBaiduMessageService: AiBaiduMessageService,
   ) {}
 
   create(createAiBaiduSessionDto: CreateAiBaiduSessionDto, options:{creator:string}) {
@@ -51,8 +53,9 @@ export class AiBaiduSessionService {
     });
   }
 
-  remove(id: string) {
-    return this.aiBaiduSessionRepository.delete(id);
+  async remove(id: string) {
+    await this.aiBaiduMessageService.removeBySessionId(id);
+    await this.aiBaiduSessionRepository.delete(id);
   }
 
   async paginate(options: IPaginationOptions) {

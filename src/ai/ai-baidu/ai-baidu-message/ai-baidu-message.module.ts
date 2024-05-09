@@ -25,6 +25,7 @@ import { AiBaiduMessageSdkService } from './ai-baidu-message-sdk.service';
     AiBaiduMessageSdkService,
     AiBaiduMessageQueueService,
     AiBaiduMessageQueueConsumer
-  ]
+  ],
+  exports: [AiBaiduMessageService]
 })
 export class AiBaiduMessageModule {}

@@ -83,9 +83,24 @@ export class AiBaiduMessageService {
         } 
       } 
     });
+    const messageList = await this.aiBaiduMessageRepository.find({
+      where: {
+        session: { id: message.session.id },
+        status: 'done' 
+      },
+      order: { createDate: 'ASC' } 
+    });
+    const messages = messageList.map(item => ({
+      role: item.role,
+      content: item.content 
+    }));
     let result = {};
     try {
-      const chatRes = await this.aiBaiduMessageSdkService.chat(message);
+      this.logger.log(`[createAiResponse][aiBaiduMessageSdkService.chat] ${JSON.stringify({
+        message,
+        messages 
+      })}`);
+      const chatRes = await this.aiBaiduMessageSdkService.chat(message, messages);
       this.logger.log(`[createAiResponse][chatRes] ${JSON.stringify(chatRes)}`);
       
       await this.aiBaiduMessageRepository.update(message2.id, {
@@ -141,5 +156,16 @@ export class AiBaiduMessageService {
         } 
       } 
     });
+  }
+
+  async getHistory(sessionId:string) {
+    return this.aiBaiduMessageRepository.find({
+      where: { session: { id: sessionId } },
+      order: { createDate: 'ASC' } 
+    });
+  }
+
+  async removeBySessionId(sessionId: string) {
+    return this.aiBaiduMessageRepository.delete({ session: { id: sessionId } });
   }
 }
