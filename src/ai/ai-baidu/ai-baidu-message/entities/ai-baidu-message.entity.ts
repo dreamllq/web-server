@@ -13,12 +13,16 @@ export class AiBaiduMessage {
     role: 'user'|'assistant';
 
   @ApiProperty({ description: 'content' })
-  @Column()
+  @Column({ type: 'text' })
     content: string;
 
   @ApiProperty({ description: 'queueId' })
   @Column()
     qid: string;
+
+  @ApiProperty({ description: '状态' })
+  @Column({ default: 'done' })
+    status: 'loading' | 'done';
 
   @ApiProperty({ type: () => AiBaiduSession })
   @ManyToOne(() => AiBaiduSession)

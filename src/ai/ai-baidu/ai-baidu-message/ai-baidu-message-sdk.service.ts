@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { AiBaiduMessageService } from './ai-baidu-message.service';
+import { AiBaiduMessage } from './entities/ai-baidu-message.entity';
 const sdk = require('@baiducloud/sdk');
 
 @Injectable()
@@ -7,11 +7,18 @@ export class AiBaiduMessageSdkService {
   private logger = new Logger('AiBaiduMessageSdkService');
 
   constructor(
-   private readonly aiBaiduMessageService:AiBaiduMessageService
   ) {}
 
-  async chat(data:{mid: string}) {
-    const message = await this.aiBaiduMessageService.findOne(data.mid);
+  async chat(message:AiBaiduMessage):Promise<{
+    created: string,
+    id: string,
+    is_truncated: boolean,
+    need_clear_history: boolean,
+    object: string,
+    result: string,
+    usage: {prompt_tokens: number, completion_tokens: number, total_tokens: number}
+  }> {
+    // const message = await this.aiBaiduMessageService.findOne(data.mid);
     this.logger.log(`[message] ${JSON.stringify(message)}`);
     return new Promise((resolve, reject) => {
       const config = {
@@ -43,9 +50,13 @@ export class AiBaiduMessageSdkService {
       })}`);
       client.sendRequest('POST', path, body, headers, params)
         .then((response) => {
-          // console.log('object: ', response.body);
-          this.logger.log(`[chat][sendRequest][success] ${JSON.stringify(response.body)}`);
-          resolve(response.body);
+          if (response.body.error_code) {
+            this.logger.log(`[chat][sendRequest][error] ${JSON.stringify(response.body)}`);
+            reject(new Error(response.body.error_msg));
+          } else {
+            this.logger.log(`[chat][sendRequest][success] ${JSON.stringify(response.body)}`);
+            resolve(response.body);
+          }
         }, (error) => {
           this.logger.log(`[chat][sendRequest][error] ${JSON.stringify(error)}`);
           reject(error);
