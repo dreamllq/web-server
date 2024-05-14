@@ -1,8 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from 'src/users/user.entity';
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { AiAliyunAccount } from '../../ai-aliyun-account/entities/ai-aliyun-account.entity';
-import { File } from 'src/file/file.entity';
 import { OcrOperates } from '../constants/ocr-operate';
 import { AiAliyunOcrRecognizeAllText } from './ai-aliyun-ocr-recognize-all-text.entity';
 
@@ -17,17 +16,16 @@ export class AiAliyunOcr {
   @JoinColumn()
     account: AiAliyunAccount;
 
-  @ApiProperty({ type: () => File })
-  @ManyToOne(() => File)
-  @JoinColumn()
-    file: File;
-
   @ApiProperty({ description: '图片类型' })
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: OcrOperates,
+    default: OcrOperates.RecognizeAllText 
+  })
     type: OcrOperates;
 
   @ApiProperty({ type: () => AiAliyunOcrRecognizeAllText })
-  @ManyToOne(() => AiAliyunOcrRecognizeAllText)
+  @OneToOne(() => AiAliyunOcrRecognizeAllText)
   @JoinColumn()
     recognizeAllText: AiAliyunOcrRecognizeAllText;
 

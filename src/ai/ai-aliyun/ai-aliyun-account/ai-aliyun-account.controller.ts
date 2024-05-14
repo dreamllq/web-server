@@ -8,8 +8,8 @@ import { DeleteSuccessResult, InsertSuccessResult, UpdateSuccessResult } from 's
 import { AuthGuard } from '@nestjs/passport';
 import { AiAliyunAccountGetAllResponse } from './responses/get-all.res';
 import { AiAliyunAccountPaginateResponse } from './responses/paginate.res';
-import { AiBaiduAccountPaginateDto } from 'src/ai/ai-baidu/ai-baidu-account/dto/paginate.dto';
 import { AiAliyunAccountGetResponse } from './responses/get.res';
+import { AiAliyunAccountPaginateDto } from './dto/paginate.dto';
 
 @ApiTags('ai-aliyun-account')
 @UseInterceptors(new TransformInterceptor())
@@ -46,7 +46,7 @@ export class AiAliyunAccountController {
   @ApiOkResponse({ type: AiAliyunAccountPaginateResponse })
   @UseGuards(AuthGuard('jwt'))
   @Get('paginate')
-  paginate(@Query() dto: AiBaiduAccountPaginateDto) {
+  paginate(@Query() dto: AiAliyunAccountPaginateDto) {
     return this.aiAliyunAccountService.paginate({
       pageNo: dto.pageNo,
       pageSize: dto.pageSize
