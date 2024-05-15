@@ -46,13 +46,13 @@ export class AiAliyunOcrService {
     });
   }
 
-  findOne(id: string) {
+  findOne(id: string, options?:{relationFileBuffer?: boolean}) {
     return this.aiAliyunOcrRepository.findOne({
       where: { id },
       relations: {
         creator: true,
         account: true,
-        recognizeAllText: { file: true }  
+        recognizeAllText: { file: options?.relationFileBuffer ? { content: true } : true }  
       } 
     });
   }
@@ -72,5 +72,12 @@ export class AiAliyunOcrService {
       list,
       count 
     };
+  }
+
+  async saveResult(id:string, result: string) {
+    const ocr = await this.findOne(id);
+    if (ocr.type === OcrOperates.RecognizeAllText) {
+      await this.aiAliyunOcrRecognizeAllTextRepository.update(ocr.recognizeAllText.id, { result });
+    }
   }
 }

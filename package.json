@@ -22,7 +22,9 @@
     "test:e2e": "jest --config ./test/jest-e2e.json --detectOpenHandles"
   },
   "dependencies": {
+    "@alicloud/darabonba-stream": "^0.0.2",
     "@alicloud/dysmsapi20170525": "^2.0.23",
+    "@alicloud/ocr-api20210707": "^2.0.8",
     "@alicloud/openapi-client": "^0.4.5",
     "@alicloud/tea-typescript": "^1.8.0",
     "@alicloud/tea-util": "^1.4.5",
