@@ -23,8 +23,11 @@ export class AiAliyunOcrRecognizeAllText {
   })
     type: RecognizeAllTextType;
 
-  @ApiProperty({ description: '图片类型' })
-  @Column({ type: 'text' })
+  @ApiProperty({ description: 'ocr识别结果' })
+  @Column({
+    type: 'text',
+    nullable: true 
+  })
     result: string;
 
   @ApiProperty({ description: '创建时间' })

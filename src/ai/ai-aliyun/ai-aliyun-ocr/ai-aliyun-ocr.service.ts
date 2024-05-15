@@ -25,7 +25,7 @@ export class AiAliyunOcrService {
 
     if (ocr.type === OcrOperates.RecognizeAllText) {
       const recognizeAllText = await this.aiAliyunOcrRecognizeAllTextRepository.insert({
-        file: { id: createAiAliyunOcrDto.fileId },
+        file: { id: createAiAliyunOcrDto.recognizeAllText.fileId },
         type: createAiAliyunOcrDto.recognizeAllText.type
       });
       ocr.recognizeAllText = { id: recognizeAllText.identifiers[0].id };
@@ -38,7 +38,7 @@ export class AiAliyunOcrService {
     return this.aiAliyunOcrRepository.find({
       relations: {
         creator: true,
-        recognizeAllText: true 
+        recognizeAllText: { file: true }  
       } 
     });
   }
@@ -48,7 +48,7 @@ export class AiAliyunOcrService {
       where: { id },
       relations: {
         creator: true,
-        recognizeAllText: true 
+        recognizeAllText: { file: true }  
       } 
     });
   }
@@ -60,8 +60,9 @@ export class AiAliyunOcrService {
       take: options.pageSize,
       relations: {
         creator: true,
-        recognizeAllText: true 
-      }
+        recognizeAllText: true
+      },
+      loadRelationIds: { 'relations': ['recognizeAllText.file'] }
     });
     return {
       list,

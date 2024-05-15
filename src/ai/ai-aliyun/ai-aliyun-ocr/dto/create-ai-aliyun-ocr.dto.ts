@@ -8,9 +8,14 @@ class RecognizeAllText {
     description: '识别类型',
     enum: RecognizeAllTextType,
     required: true,
-    enumName: 'RecognizeAllTextType'
+    enumName: 'AliyunOcrRecognizeAllTextType'
   })
     type:RecognizeAllTextType;
+
+  @ApiProperty({ description: '文件' })
+  @IsNotEmpty()
+  @IsString()
+    fileId:string;
 }
 
 export class CreateAiAliyunOcrDto {
@@ -24,15 +29,11 @@ export class CreateAiAliyunOcrDto {
   @IsString()
     accountId: string;
 
-  @ApiProperty({ description: '文件' })
-  @IsNotEmpty()
-  @IsString()
-    fileId:string;
-
   @ApiProperty({
     description: '操作方法',
     type: 'enum',
-    enum: OcrOperates 
+    enum: OcrOperates,
+    enumName: 'AliyunOcrOperates'
   })
   @IsNotEmpty()
   @IsString()
