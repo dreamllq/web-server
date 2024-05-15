@@ -11,6 +11,10 @@ export class AiAliyunOcr {
   @PrimaryGeneratedColumn('uuid')
     id: string;
 
+  @ApiProperty({ description: 'ocr任务名称' })
+  @Column()
+    name: string;
+
   @ApiProperty({ type: () => AiAliyunAccount })
   @ManyToOne(() => AiAliyunAccount)
   @JoinColumn()

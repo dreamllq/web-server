@@ -20,6 +20,8 @@ export class AiAliyunOcrService {
   async create(createAiAliyunOcrDto: CreateAiAliyunOcrDto, options:{creator:string}) {
     const ocr: Parameters<typeof this.aiAliyunOcrRepository.insert>[0] = {
       type: createAiAliyunOcrDto.type,
+      name: createAiAliyunOcrDto.name,
+      account: { id: createAiAliyunOcrDto.accountId },
       creator: { id: options.creator } 
     };
 
@@ -38,6 +40,7 @@ export class AiAliyunOcrService {
     return this.aiAliyunOcrRepository.find({
       relations: {
         creator: true,
+        account: true,
         recognizeAllText: { file: true }  
       } 
     });
@@ -48,6 +51,7 @@ export class AiAliyunOcrService {
       where: { id },
       relations: {
         creator: true,
+        account: true,
         recognizeAllText: { file: true }  
       } 
     });
@@ -60,6 +64,7 @@ export class AiAliyunOcrService {
       take: options.pageSize,
       relations: {
         creator: true,
+        account: true,
         recognizeAllText: { file: true }
       }
     });
