@@ -16,6 +16,6 @@ export class StaticController {
       'content-type': mime.getType(`${file.name}.${file.ext}`)
       // 'Content-Disposition': `attachment; filename="${file.name}.${file.ext}"` 
     });
-    return new StreamableFile(file.content);
+    return new StreamableFile(file.content.buffer);
   }
 }

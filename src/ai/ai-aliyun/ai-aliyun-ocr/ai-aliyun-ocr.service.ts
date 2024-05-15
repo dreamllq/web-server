@@ -60,9 +60,8 @@ export class AiAliyunOcrService {
       take: options.pageSize,
       relations: {
         creator: true,
-        recognizeAllText: true
-      },
-      loadRelationIds: { 'relations': ['recognizeAllText.file'] }
+        recognizeAllText: { file: true }
+      }
     });
     return {
       list,

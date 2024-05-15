@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { FileBuffer } from './file-buffer.entity';
 
 @Entity()
 export class File {
@@ -13,8 +14,11 @@ export class File {
   @Column()
     ext: string;
 
-  @Column({ type: 'mediumblob' })
-    content: Buffer;
+
+  @ApiProperty({ type: () => FileBuffer })
+  @OneToOne(() => FileBuffer)
+  @JoinColumn()
+    content: FileBuffer;
 
   @Column()
     md5: string;

@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { File } from './file.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { FileBuffer } from './file-buffer.entity';
 const md5 = require('md5');
 
 @Injectable()
@@ -14,6 +15,8 @@ export class FileService {
   constructor(
     @InjectRepository(File)
     private fileRepository: Repository<File>,
+    @InjectRepository(FileBuffer)
+    private fileBufferRepository: Repository<FileBuffer>,
   ) {}
 
   async create(file: Express.Multer.File): Promise<string> {
@@ -31,8 +34,10 @@ export class FileService {
 
     const filename = `${uuidv4()}`;
 
+    const fileBufferResult = await this.fileBufferRepository.insert({ buffer: file.buffer });
+
     const result = await this.fileRepository.insert({
-      content: file.buffer,
+      content: { id: fileBufferResult.identifiers[0].id },
       ext: ext,
       name: filename,
       md5: md5str
@@ -41,7 +46,10 @@ export class FileService {
     return result.identifiers[0].id;
   }
 
-  findOne(id) {
-    return this.fileRepository.findOne({ where: { id } });
+  findOne(id:string) {
+    return this.fileRepository.findOne({
+      where: { id },
+      relations: { content: true } 
+    });
   }
 }
