@@ -21,9 +21,11 @@ export class FileController {
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(@UploadedFile() file: Express.Multer.File) {
     const id = await this.fileService.create(file);
+    const entity = await this.fileService.findOne(id);
     return {
       url: `/api/file/static/${id}`,
-      fileId: id 
+      fileId: id,
+      entity
     };
   }
 
@@ -34,10 +36,12 @@ export class FileController {
   @UseInterceptors(FilesInterceptor('files'))
   async uploadFiles(@UploadedFiles() files: Array<Express.Multer.File>) {
     const ids = await Promise.all(files.map(file => this.fileService.create(file)));
+    const entities = await Promise.all(ids.map(id => this.fileService.findOne(id)));
     return {
-      urls: ids.map(id => ({
+      urls: ids.map((id, index) => ({
         url: `/api/file/static/${id}`,
-        fileId: id 
+        fileId: id,
+        entity: entities[index]
       })) 
     };
   }

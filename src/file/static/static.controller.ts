@@ -8,7 +8,7 @@ export class StaticController {
 
   @Get(':id')
   async view(@Param('id') id, @Res({ passthrough: true }) res) {
-    const file = await this.fileService.findOne(id);
+    const file = await this.fileService.findOne(id, { relations: { content: true } });
     res.set({
       'accept-ranges': 'bytes',
       'cache-control': `max-age=${10 * 365 * 24 * 60 * 60}`,

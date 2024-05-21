@@ -7,6 +7,7 @@ export class FileBuffer {
   @PrimaryGeneratedColumn('uuid')
     id: string;
 
+  @ApiProperty({ description: 'buffer' })
   @Column({ type: 'mediumblob' })
     buffer: Buffer;
 

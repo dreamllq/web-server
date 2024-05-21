@@ -11,6 +11,7 @@ export class File {
   @Column()
     name:string;
 
+  @ApiProperty({ description: '扩展名' })
   @Column()
     ext: string;
 

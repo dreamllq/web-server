@@ -46,10 +46,10 @@ export class FileService {
     return result.identifiers[0].id;
   }
 
-  findOne(id:string) {
+  findOne(id:string, options?:{relations?:{content?: boolean}}) {
     return this.fileRepository.findOne({
       where: { id },
-      relations: { content: true } 
+      relations: { content: !!options?.relations?.content } 
     });
   }
 }
