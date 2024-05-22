@@ -5,12 +5,14 @@ import { AiAliyunSession } from './entities/ai-aliyun-session.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { IPaginationOptions } from 'src/types';
+import { AiAliyunMessageService } from '../ai-aliyun-message/ai-aliyun-message.service';
 
 @Injectable()
 export class AiAliyunSessionService {
   constructor(
     @InjectRepository(AiAliyunSession)
     private readonly aiAliyunSessionRepository: Repository<AiAliyunSession>,
+    private readonly aiAliyunMessageService: AiAliyunMessageService,
   ) {}
 
   create(createAiAliyunSessionDto: CreateAiAliyunSessionDto, options:{creator:string}) {
@@ -52,6 +54,7 @@ export class AiAliyunSessionService {
   }
 
   async remove(id: string) {
+    await this.aiAliyunMessageService.removeBySessionId(id);
     await this.aiAliyunSessionRepository.delete(id);
   }
   

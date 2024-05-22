@@ -3,13 +3,15 @@ import { AiAliyunAccountModule } from './ai-aliyun-account/ai-aliyun-account.mod
 import { AiAliyunOcrModule } from './ai-aliyun-ocr/ai-aliyun-ocr.module';
 import { AiAliyunServiceModule } from './ai-aliyun-service/ai-aliyun-service.module';
 import { AiAliyunSessionModule } from './ai-aliyun-session/ai-aliyun-session.module';
+import { AiAliyunMessageModule } from './ai-aliyun-message/ai-aliyun-message.module';
 
 @Module({
   imports: [
     AiAliyunAccountModule,
     AiAliyunOcrModule,
     AiAliyunServiceModule,
-    AiAliyunSessionModule
+    AiAliyunSessionModule,
+    AiAliyunMessageModule
   ] 
 })
 export class AiAliyunModule {}
