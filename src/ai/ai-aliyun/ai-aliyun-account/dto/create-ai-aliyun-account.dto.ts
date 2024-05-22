@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateAiAliyunAccountDto {
   @ApiProperty({ description: '名称' })
@@ -16,4 +16,10 @@ export class CreateAiAliyunAccountDto {
   @IsNotEmpty()
   @IsString()
     secretKey:string;
+
+  @ApiPropertyOptional()
+  @ApiProperty({ description: 'Secret Key' })
+  @IsOptional()
+  @IsString()
+    dashscopeApiKey: string;
 }

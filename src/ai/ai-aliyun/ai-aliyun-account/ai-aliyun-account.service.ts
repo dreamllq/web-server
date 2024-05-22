@@ -18,6 +18,7 @@ export class AiAliyunAccountService {
       name: createAiAliyunAccountDto.name,
       accessKey: createAiAliyunAccountDto.accessKey,
       secretKey: createAiAliyunAccountDto.secretKey,
+      dashscopeApiKey: createAiAliyunAccountDto.dashscopeApiKey,
       creator: { id: options.creator }
     });
   }
@@ -37,6 +38,7 @@ export class AiAliyunAccountService {
     return this.aiAliyunAccountRepository.update(id, {
       accessKey: updateAiAliyunAccountDto.accessKey,
       name: updateAiAliyunAccountDto.name,
+      dashscopeApiKey: updateAiAliyunAccountDto.dashscopeApiKey,
       secretKey: updateAiAliyunAccountDto.secretKey
     });
   }

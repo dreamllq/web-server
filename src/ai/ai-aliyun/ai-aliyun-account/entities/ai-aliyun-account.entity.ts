@@ -29,6 +29,13 @@ export class AiAliyunAccount {
   })
     secretKey: string;
 
+  @ApiProperty({ description: 'Dashscope Api Key' })
+  @Column({
+    nullable: true,
+    unique: true 
+  })
+    dashscopeApiKey: string;
+
   @ApiProperty({ type: () => User })
   @ManyToOne(() => User)
   @JoinColumn()
