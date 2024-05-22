@@ -24,6 +24,10 @@ export class AiAliyunService {
   @Column({ nullable: true })
     path: string;
 
+  @ApiProperty({ description: 'model' })
+  @Column({ nullable: true })
+    model: string;
+
   @ApiProperty({ type: () => AiServiceType })
   @ManyToOne(() => AiServiceType)
   @JoinColumn()

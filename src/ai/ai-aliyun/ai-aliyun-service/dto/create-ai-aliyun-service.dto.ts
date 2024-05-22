@@ -19,6 +19,12 @@ export class CreateAiAliyunServiceDto {
   @IsString()
     path:string;
 
+  @ApiProperty({ description: 'model' })
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+    model:string;
+
   @ApiProperty({ description: '服务类型' })
   @IsNotEmpty()
   @IsString()

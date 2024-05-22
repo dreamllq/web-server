@@ -19,6 +19,7 @@ export class AiAliyunServiceService {
       name: createAiAliyunServiceDto.name,
       endpoint: createAiAliyunServiceDto.endpoint,
       path: createAiAliyunServiceDto.path,
+      model: createAiAliyunServiceDto.model,
       type: { id: createAiAliyunServiceDto.typeId },
       creator: { id: options.creator }
     });
@@ -48,6 +49,7 @@ export class AiAliyunServiceService {
       name: updateAiAliyunServiceDto.name,
       endpoint: updateAiAliyunServiceDto.endpoint,
       path: updateAiAliyunServiceDto.path,
+      model: updateAiAliyunServiceDto.model,
       type: { id: updateAiAliyunServiceDto.typeId }
     });
   }
