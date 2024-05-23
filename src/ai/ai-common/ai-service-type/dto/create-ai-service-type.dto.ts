@@ -6,4 +6,9 @@ export class CreateAiServiceTypeDto {
   @IsNotEmpty()
   @IsString()
     name:string;
+
+  @ApiProperty({ description: '服务类型值' })
+  @IsNotEmpty()
+  @IsString()
+    value:string;
 }

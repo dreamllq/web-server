@@ -79,7 +79,7 @@ export class AiAliyunMessageService {
       },
       relations: {
         session: {
-          service: true,
+          service: { type: true },
           account: true 
         } 
       } 
@@ -97,13 +97,21 @@ export class AiAliyunMessageService {
     }));
     let result = {};
     try {
-      this.logger.log(`[createAiResponse][aiAliyunMessageSdkService.chat] ${JSON.stringify({
-        message,
-        messages 
-      })}`);
-      const chatRes = await this.aiAliyunMessageSdkService.chat(message, messages);
-      this.logger.log(`[createAiResponse][chatRes] ${JSON.stringify(chatRes)}`);
-      
+      this.logger.log(`[createAiResponse][service type] ${message.session.service.type.name}-${message.session.service.type.value}`);
+      let chatRes:{output:{text:string}};
+      if (message.session.service.type.value === 'CHAT') {
+        this.logger.log(`[createAiResponse][aiAliyunMessageSdkService.chat] ${JSON.stringify({
+          message,
+          messages 
+        })}`);
+        chatRes = await this.aiAliyunMessageSdkService.chat(message, messages);
+        this.logger.log(`[createAiResponse][chatRes] ${JSON.stringify(chatRes)}`);
+      } else if (message.session.service.type.value === 'TEXT_TO_IMAGE') {
+        this.logger.log(`[createAiResponse][aiAliyunMessageSdkService.chat] ${JSON.stringify({ message })}`);
+        chatRes = await this.aiAliyunMessageSdkService.messageToImage(message);
+        this.logger.log(`[createAiResponse][messageToImageRes] ${JSON.stringify(chatRes)}`);
+      }
+
       await this.aiAliyunMessageRepository.update(message2.id, {
         content: chatRes.output.text,
         status: 'done'
@@ -152,7 +160,7 @@ export class AiAliyunMessageService {
       where: { id },
       relations: {
         session: {
-          service: true,
+          service: { type: true },
           account: true 
         } 
       } 

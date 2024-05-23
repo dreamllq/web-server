@@ -13,7 +13,10 @@ export class AiServiceTypeService {
   ) {}
   
   create(createAiServiceTypeDto: CreateAiServiceTypeDto) {
-    return this.aiServiceTypeRepository.insert({ name: createAiServiceTypeDto.name });
+    return this.aiServiceTypeRepository.insert({
+      name: createAiServiceTypeDto.name,
+      value: createAiServiceTypeDto.value 
+    });
   }
 
   findAll() {
@@ -25,7 +28,10 @@ export class AiServiceTypeService {
   }
 
   update(id: string, updateAiServiceTypeDto: UpdateAiServiceTypeDto) {
-    return this.aiServiceTypeRepository.update(id, { name: updateAiServiceTypeDto.name });
+    return this.aiServiceTypeRepository.update(id, {
+      name: updateAiServiceTypeDto.name,
+      value: updateAiServiceTypeDto.value 
+    });
   }
 
   remove(id: string) {

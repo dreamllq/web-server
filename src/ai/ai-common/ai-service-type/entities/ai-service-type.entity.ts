@@ -14,6 +14,10 @@ export class AiServiceType {
   })
     name: string;
 
+  @ApiProperty({ description: '值' })
+  @Column()
+    value: string;
+
   @ApiProperty({ description: '创建时间' })
   @CreateDateColumn()
     createDate: Date;
