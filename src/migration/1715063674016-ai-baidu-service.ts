@@ -10,5 +10,4 @@ export class AiBaiduService1715063674016 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
   }
-
 }
