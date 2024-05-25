@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from 'src/users/user.entity';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { AiAliyunAccount } from '../../ai-aliyun-account/entities/ai-aliyun-account.entity';
 import { OcrOperates } from '../constants/ocr-operate';
-import { AiAliyunOcrRecognizeAllText } from './ai-aliyun-ocr-recognize-all-text.entity';
+import { AiBaiduAccount } from '../../ai-baidu-account/entities/ai-baidu-account.entity';
+import { AiBaiduOrcGeneralScenarios } from './ai-baidu-orc-general-scenarios.entity';
 
 @Entity()
-export class AiAliyunOcr {
+export class AiBaiduOcr {
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
     id: string;
@@ -15,23 +15,23 @@ export class AiAliyunOcr {
   @Column()
     name: string;
 
-  @ApiProperty({ type: () => AiAliyunAccount })
-  @ManyToOne(() => AiAliyunAccount)
+  @ApiProperty({ type: () => AiBaiduAccount })
+  @ManyToOne(() => AiBaiduAccount)
   @JoinColumn()
-    account: AiAliyunAccount;
+    account: AiBaiduAccount;
 
   @ApiProperty({ description: '操作类型' })
   @Column({
     type: 'enum',
     enum: OcrOperates,
-    default: OcrOperates.RecognizeAllText 
+    default: OcrOperates.GeneralScenarios 
   })
     type: OcrOperates;
 
-  @ApiProperty({ type: () => AiAliyunOcrRecognizeAllText })
-  @OneToOne(() => AiAliyunOcrRecognizeAllText)
+  @ApiProperty({ type: () => AiBaiduOrcGeneralScenarios })
+  @OneToOne(() => AiBaiduOrcGeneralScenarios)
   @JoinColumn()
-    recognizeAllText: AiAliyunOcrRecognizeAllText;
+    generalScenarios: AiBaiduOrcGeneralScenarios;
 
   @ApiProperty({ type: () => User })
   @ManyToOne(() => User)
