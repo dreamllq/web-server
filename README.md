@@ -7,6 +7,20 @@ https://factory.methodot.com/
 dev环境启动前复制 .env.default => .env.test
 生产环境启动前复制 .env.default => .env
 
+## 项目运行
+
+### 初始化
+
+#### 数据库初始化数据
+```
+npm run typeorm:run
+```
+
+### 开发运行
+```
+npm run start:dev
+```
+
 ## 微信开放平台
 
 ### 公众号
