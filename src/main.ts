@@ -12,8 +12,8 @@ import { createClient } from 'redis';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // console.log(`redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`);
-  const redisClient = createClient({ url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}` });
+  // console.log(`redis://${process.env.LWS_REDIS_HOST}:${process.env.LWS_REDIS_PORT}`);
+  const redisClient = createClient({ url: `redis://${process.env.LWS_REDIS_HOST}:${process.env.LWS_REDIS_PORT}` });
   redisClient.connect().catch(console.error);
   const redisStore = new RedisStore({
     client: redisClient,

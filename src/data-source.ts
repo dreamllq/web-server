@@ -5,15 +5,15 @@ const dotenvExpand = require('dotenv-expand');
 const myEnv = dotenv.config({ path: process.cwd() + '/.env' });
 dotenvExpand.expand(myEnv);
 
-const { MYSQL_HOST, MYSQL_PORT, MYSQL_USERNAME, MYSQL_PASSWORD, MYSQL_DATABASE } = myEnv.parsed;
+const { LWS_MYSQL_HOST, LWS_MYSQL_PORT, LWS_MYSQL_USERNAME, LWS_MYSQL_PASSWORD, LWS_MYSQL_DATABASE } = myEnv.parsed;
 
 export const AppDataSource = new DataSource({
   type: 'mysql',
-  host: MYSQL_HOST,
-  port: Number(MYSQL_PORT),
-  username: MYSQL_USERNAME,
-  password: MYSQL_PASSWORD,
-  database: MYSQL_DATABASE,
+  host: LWS_MYSQL_HOST,
+  port: Number(LWS_MYSQL_PORT),
+  username: LWS_MYSQL_USERNAME,
+  password: LWS_MYSQL_PASSWORD,
+  database: LWS_MYSQL_DATABASE,
   'entities': [],
   'migrations': [__dirname + '/migration/*.js']
 });

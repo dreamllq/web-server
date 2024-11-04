@@ -13,12 +13,18 @@ dev环境启动前复制 .env.default => .env.test
 
 #### 数据库初始化数据
 ```
-npm run typeorm:run
+npm run build && npm run typeorm:run
 ```
 
 ### 开发运行
 ```
 npm run start:dev
+```
+
+### docker 启动
+
+```
+docker run --name ss -p 3001:3000 --link mysql:mysql --link redis:redis  -d --restart=always web-server:latest
 ```
 
 ## 微信开放平台

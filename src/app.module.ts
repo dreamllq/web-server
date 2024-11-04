@@ -39,6 +39,7 @@ import { WxMessageChannelQueueModule } from './message-channel/wx-message-channe
 import { DepartmentModule } from './department/department.module';
 import { LogModule } from './log/log.module';
 import { AiModule } from './ai/ai.module';
+
 @Module({
   imports: [
     EventEmitterModule.forRoot(),
@@ -46,14 +47,14 @@ import { AiModule } from './ai/ai.module';
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         type: 'mysql',
-        host: process.env.MYSQL_HOST,
-        port: Number(process.env.MYSQL_PORT),
-        username: process.env.MYSQL_USERNAME,
-        password: process.env.MYSQL_PASSWORD,
-        database: process.env.MYSQL_DATABASE,
+        host: process.env.LWS_MYSQL_HOST,
+        port: Number(process.env.LWS_MYSQL_PORT),
+        username: process.env.LWS_MYSQL_USERNAME,
+        password: process.env.LWS_MYSQL_PASSWORD,
+        database: process.env.LWS_MYSQL_DATABASE,
         autoLoadEntities: true,
         entities: [__dirname + '/../dist/**/*.entity.{ts,js}'],
-        synchronize: process.env.DB_SYNCHRONIZE === '1',
+        synchronize: process.env.LWS_DB_SYNCHRONIZE === '1',
         logging: ['error', 'warn'],
         maxQueryExecutionTime: 1000,
         logger: 'simple-console'
@@ -64,9 +65,9 @@ import { AiModule } from './ai/ai.module';
     }),
     BullModule.forRoot({
       redis: {
-        host: process.env.REDIS_HOST,
-        port: Number(process.env.REDIS_PORT),
-        db: Number(process.env.REDIS_DB)
+        host: process.env.LWS_REDIS_HOST,
+        port: Number(process.env.LWS_REDIS_PORT),
+        db: Number(process.env.LWS_REDIS_DB)
       }
     }),
     ScheduleModule.forRoot(),
