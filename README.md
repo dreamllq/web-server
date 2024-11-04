@@ -24,7 +24,7 @@ npm run start:dev
 ### docker 启动
 
 ```
-docker run --name ss -p 3001:3000 --link mysql:mysql --link redis:redis  -d --restart=always web-server:latest
+docker run --name ss -p 3001:3000 --link mysql:mysql --link redis:redis  -d --restart=always:10 web-server:latest
 ```
 
 ## 微信开放平台
