@@ -39,6 +39,7 @@ import { WxMessageChannelQueueModule } from './message-channel/wx-message-channe
 import { DepartmentModule } from './department/department.module';
 import { LogModule } from './log/log.module';
 import { AiModule } from './ai/ai.module';
+import { FsModule } from './fs/fs.module';
 
 @Module({
   imports: [
@@ -103,7 +104,8 @@ import { AiModule } from './ai/ai.module';
     WxMessageChannelQueueModule,
     DepartmentModule,
     LogModule,
-    AiModule
+    AiModule,
+    FsModule
   ],
   controllers: [AppController],
   providers: [AppService]
