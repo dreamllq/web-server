@@ -3,7 +3,7 @@ import { CreateFDto } from './dto/create-f.dto';
 import { UpdateFDto } from './dto/update-f.dto';
 import { F } from './entities/f.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, Repository, TreeRepository } from 'typeorm';
 import { PathType } from './constants/path-type';
 import { IPaginationOptions } from 'src/types';
 
@@ -11,7 +11,7 @@ import { IPaginationOptions } from 'src/types';
 export class FsService {
   constructor(
     @InjectRepository(F)
-    private fRepository: Repository<F>,
+    private fRepository: TreeRepository<F>,
   ) {}
   create(createFDto: CreateFDto, options:{creator:string}) {
     return this.fRepository.insert({
@@ -28,6 +28,17 @@ export class FsService {
       relations: {
         creator: true,
         fileDetail: true 
+      } 
+    });
+  }
+
+  findChildren(parentId: string) {
+    return this.fRepository.find({
+      where: { parent: parentId !== 'null' ? { id: parentId } : IsNull() },
+      relations: {
+        creator: true,
+        fileDetail: true,
+        parent: true
       } 
     });
   }

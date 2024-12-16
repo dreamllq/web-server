@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { FileBuffer } from './file-buffer.entity';
 
 @Entity()
@@ -11,13 +11,16 @@ export class File {
   @Column()
     name:string;
 
+  @Column({ nullable: true })
+    originFileName:string;
+
   @ApiProperty({ description: '扩展名' })
   @Column()
     ext: string;
 
 
   @ApiProperty({ type: () => FileBuffer })
-  @OneToOne(() => FileBuffer)
+  @ManyToOne(() => FileBuffer)
   @JoinColumn()
     content: FileBuffer;
 

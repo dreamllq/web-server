@@ -38,6 +38,17 @@ export class FsController {
   }
 
   @ApiOperation({
+    summary: '获取子节点',
+    operationId: 'getChildren'
+  })
+  @ApiOkResponse({ type: FGetAllResponse })
+  @UseGuards(AuthGuard('jwt'))
+  @Get('children/:id')
+  findChildren(@Param('id') id: string) {
+    return this.fsService.findChildren(id);
+  }
+
+  @ApiOperation({
     summary: '获取指定id服务',
     operationId: 'get' 
   })
