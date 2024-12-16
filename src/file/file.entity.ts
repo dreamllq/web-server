@@ -8,9 +8,11 @@ export class File {
   @PrimaryGeneratedColumn('uuid')
     id: string;
 
+  @ApiProperty({ description: '名称' })
   @Column()
     name:string;
 
+  @ApiProperty({ description: '文件原名' })
   @Column({ nullable: true })
     originFileName:string;
 
