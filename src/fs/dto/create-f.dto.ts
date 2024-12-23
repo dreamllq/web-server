@@ -2,7 +2,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { PathType } from '../constants/path-type';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-class FileDetail {
+class FileDetailDto {
   @ApiProperty()
   @IsString()
     fileId: string;
@@ -28,8 +28,8 @@ export class CreateFDto {
   @IsString()
     pathType: PathType;
 
-  @ApiProperty({ type: FileDetail })
+  @ApiProperty({ type: FileDetailDto })
   @ApiPropertyOptional()
   @IsOptional()
-    fileDetail:FileDetail;
+    fileDetail:FileDetailDto;
 }

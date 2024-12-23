@@ -51,7 +51,7 @@ export class FileService {
       ext: ext,
       name: filename,
       md5: md5str,
-      originFileName: Buffer.from(file.originalname, 'latin1').toString('utf8')
+      originFileName: Buffer.from(file.originalname, 'latin1').toString('utf8').split('.')[0]
     });
 
     return result.identifiers[0].id;

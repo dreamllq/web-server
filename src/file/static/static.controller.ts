@@ -26,7 +26,7 @@ export class StaticController {
       'cache-control': `max-age=${10 * 365 * 24 * 60 * 60}`,
       'expires': 'Mon, 26 Jun 2123 14:00:56 GMT',
       'content-type': mime.getType(`${file.originFileName || file.name}.${file.ext}`),
-      'Content-Disposition': `attachment; filename="${file.originFileName || file.name}.${file.ext}"` 
+      'Content-Disposition': `attachment; filename="${encodeURIComponent(file.originFileName) || file.name}.${file.ext}"` 
     });
     return new StreamableFile(file.content.buffer);
   }
