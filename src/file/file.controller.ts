@@ -1,11 +1,13 @@
-import { Controller, Get, Request, Post, UseGuards, UseInterceptors, UploadedFile, UploadedFiles } from '@nestjs/common';
+import { Controller, Get, Request, Post, UseGuards, UseInterceptors, UploadedFile, UploadedFiles, Param } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 import { FileUploadDto } from './dtos/file-upload.dto';
 import { FilesUploadDto } from './dtos/files-upload.dto';
 import { FileService } from './file.service';
 import { FileUploadResponse } from './responses/file-upload.res';
+import { AuthGuard } from '@nestjs/passport';
+import { FileGetResponse } from './responses/get.res';
 
 @ApiTags('file')
 @UseInterceptors(new TransformInterceptor())
@@ -44,5 +46,16 @@ export class FileController {
         entity: entities[index]
       })) 
     };
+  }
+
+   @ApiOperation({
+     summary: '获取id文件信息',
+     operationId: 'get'
+   })
+    @ApiParam({ name: 'id' })
+    @ApiOkResponse({ type: FileGetResponse })
+    @Get(':id')
+  get(@Param('id') id) {
+    return this.fileService.findOne(id);
   }
 }

@@ -6,19 +6,27 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, Repository, TreeRepository } from 'typeorm';
 import { PathType } from './constants/path-type';
 import { IPaginationOptions } from 'src/types';
+import { FileDetail } from './entities/file-detail.entity';
 
 @Injectable()
 export class FsService {
   constructor(
     @InjectRepository(F)
     private fRepository: TreeRepository<F>,
+    @InjectRepository(FileDetail)
+    private fileDetailRepository: Repository<FileDetail>,
   ) {}
-  create(createFDto: CreateFDto, options:{creator:string}) {
+  async create(createFDto: CreateFDto, options:{creator:string}) {
+    let res = null;
+    if (createFDto.pathType === PathType.FILE) {
+      res = await this.fileDetailRepository.insert({ file: { id: createFDto.fileDetail.fileId } });
+    }
+    
     return this.fRepository.insert({
       name: createFDto.name,
       parent: { id: createFDto.parentId },
       pathType: createFDto.pathType,
-      fileDetail: createFDto.pathType === PathType.FILE ? { file: { id: createFDto.fileDetail.fileId } } : undefined,
+      fileDetail: createFDto.pathType === PathType.FILE ? { id: res.identifiers[0].id } : undefined,
       creator: { id: options.creator }
     });
   }
@@ -27,7 +35,7 @@ export class FsService {
     return this.fRepository.find({
       relations: {
         creator: true,
-        fileDetail: true 
+        fileDetail: { file: true } 
       } 
     });
   }
@@ -37,7 +45,7 @@ export class FsService {
       where: { parent: parentId !== 'null' ? { id: parentId } : IsNull() },
       relations: {
         creator: true,
-        fileDetail: true,
+        fileDetail: { file: true },
         parent: true
       } 
     });
@@ -48,7 +56,7 @@ export class FsService {
       where: { id },
       relations: {
         creator: true,
-        fileDetail: true 
+        fileDetail: { file: true }  
       }
     });
   }
@@ -71,7 +79,7 @@ export class FsService {
       take: options.pageSize,
       relations: {
         creator: true,
-        fileDetail: true
+        fileDetail: { file: true } 
       }
     });
     return {

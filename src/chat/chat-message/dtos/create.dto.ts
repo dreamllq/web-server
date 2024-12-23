@@ -4,7 +4,10 @@ import { ChatMessageTypeEnum } from '../chat-message.type';
 export class ChatMessageCreateDto {
   @ApiProperty()
     id: string;
-  @ApiProperty({ enum: ChatMessageTypeEnum })
+  @ApiProperty({
+    enum: ChatMessageTypeEnum,
+    enumName: 'ChatMessageTypeEnum' 
+  })
     type: ChatMessageTypeEnum;
   @ApiProperty()
     content: string;

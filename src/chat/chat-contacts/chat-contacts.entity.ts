@@ -19,7 +19,10 @@ export class ChatContacts {
   @JoinColumn()
     creator: User;
 
-  @ApiProperty({ enum: ChatContactsTypeEnum })
+  @ApiProperty({
+    enum: ChatContactsTypeEnum,
+    enumName: 'ChatContactsTypeEnum' 
+  })
   @Column({
     type: 'enum',
     enum: ChatContactsTypeEnum,

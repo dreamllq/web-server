@@ -15,7 +15,10 @@ export class ChatMessage {
   @JoinColumn()
     contacts: ChatContacts;
 
-  @ApiProperty({ enum: ChatMessageTypeEnum })
+  @ApiProperty({
+    enum: ChatMessageTypeEnum,
+    enumName: 'ChatMessageTypeEnum' 
+  })
   @Column({
     type: 'enum',
     enum: ChatMessageTypeEnum,
