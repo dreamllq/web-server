@@ -23,8 +23,6 @@ export class FsController {
   @UseGuards(AuthGuard('jwt'))
   @Post()
   create(@Body() createFDto: CreateFDto, @Req() req) {
-    console.log(createFDto);
-    
     return this.fsService.create(createFDto, { creator: req.user.id });
   }
 
