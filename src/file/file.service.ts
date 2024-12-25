@@ -7,11 +7,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { FileBuffer } from './file-buffer.entity';
 const md5 = require('md5');
-
+import { loadEsm } from 'load-esm';
 @Injectable()
 export class FileService {
-
-
   constructor(
     @InjectRepository(File)
     private fileRepository: Repository<File>,
@@ -25,22 +23,21 @@ export class FileService {
       where: { md5: md5str },
       relations: { content: true } 
     });
+    const { ext } = await (async () => {
+      const { fileTypeFromBuffer } = await loadEsm<typeof import('file-type')>('file-type');
+      return await fileTypeFromBuffer(file.buffer);
+    })();
+
     if (f) {
       const result = await this.fileRepository.insert({
         content: f.content,
         ext: f.ext,
         name: f.name,
         md5: f.md5,
-        originFileName: Buffer.from(file.originalname, 'latin1').toString('utf8')
+        originFileName: Buffer.from(file.originalname, 'latin1').toString('utf8').replace(`.${ext}`, '')
       });
       return result.identifiers[0].id;
     }
-
-    const ext = file.originalname
-      .split('.')
-      .filter(Boolean) // removes empty extensions (e.g. `filename...txt`)
-      .slice(1)
-      .join('.');
 
     const filename = `${uuidv4()}`;
 
@@ -51,7 +48,7 @@ export class FileService {
       ext: ext,
       name: filename,
       md5: md5str,
-      originFileName: Buffer.from(file.originalname, 'latin1').toString('utf8').split('.')[0]
+      originFileName: Buffer.from(file.originalname, 'latin1').toString('utf8').replace(`.${ext}`, '')
     });
 
     return result.identifiers[0].id;
