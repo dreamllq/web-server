@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { User } from 'src/users/user.entity';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, Tree, TreeChildren, TreeParent, UpdateDateColumn } from 'typeorm';
 import { PathType } from '../constants/path-type';
@@ -37,11 +37,13 @@ export class F {
     children: F[];
 
   @ApiProperty({ type: () => FileDetail })
+  @ApiPropertyOptional()
   @OneToOne(() => FileDetail)
   @JoinColumn()
     fileDetail:FileDetail;
 
   @ApiProperty({ type: () => User })
+  @ApiPropertyOptional()
   @ManyToOne(() => User)
   @JoinColumn()
     creator: User;

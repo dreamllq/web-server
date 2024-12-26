@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { File } from 'src/file/file.entity';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, TreeParent, UpdateDateColumn } from 'typeorm';
 
@@ -9,6 +9,7 @@ export class FileDetail {
     id: string;
 
   @ApiProperty({ type: () => File })
+  @ApiPropertyOptional()
   @ManyToOne(() => File)
   @JoinColumn()
     file: File;

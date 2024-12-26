@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { FileBuffer } from './file-buffer.entity';
 
@@ -22,6 +22,7 @@ export class File {
 
 
   @ApiProperty({ type: () => FileBuffer })
+  @ApiPropertyOptional()
   @ManyToOne(() => FileBuffer)
   @JoinColumn()
     content: FileBuffer;
