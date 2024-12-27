@@ -19,6 +19,7 @@ export class FileService {
 
   async create(file: Express.Multer.File): Promise<string> {
     const md5str = md5(file.buffer);
+    const size = file.size;
     const f = await this.fileRepository.findOne({
       where: { md5: md5str },
       relations: { content: true } 
@@ -34,6 +35,7 @@ export class FileService {
         ext: f.ext,
         name: f.name,
         md5: f.md5,
+        size: size,
         originFileName: Buffer.from(file.originalname, 'latin1').toString('utf8').replace(`.${ext}`, '')
       });
       return result.identifiers[0].id;
@@ -48,6 +50,7 @@ export class FileService {
       ext: ext,
       name: filename,
       md5: md5str,
+      size: size,
       originFileName: Buffer.from(file.originalname, 'latin1').toString('utf8').replace(`.${ext}`, '')
     });
 

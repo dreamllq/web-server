@@ -21,6 +21,11 @@ export class File {
     ext: string;
 
 
+  @ApiProperty({ description: '空间大小' })
+  @Column()
+    size: number;
+  
+
   @ApiProperty({ type: () => FileBuffer })
   @ApiPropertyOptional()
   @ManyToOne(() => FileBuffer)
