@@ -108,8 +108,8 @@ export class FsService {
 
   update(id: string, updateFDto: UpdateFDto) {
     return this.fRepository.update(id, {
-      name: updateFDto.name,
-      parent: { id: updateFDto.parentId }
+      name: updateFDto.name ? updateFDto.name : undefined,
+      parent: updateFDto.parentId ? { id: updateFDto.parentId } : undefined
     });
   }
 
