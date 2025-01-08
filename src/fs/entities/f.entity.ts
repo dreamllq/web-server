@@ -15,6 +15,13 @@ export class F {
   @Column({ nullable: false })
     name:string;
 
+  @ApiProperty()
+  @Column({
+    nullable: false,
+    default: false 
+  })
+    favorite: boolean;
+
   @ApiProperty({
     description: '路径类型',
     type: 'enum',

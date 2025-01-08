@@ -7,7 +7,8 @@ import { IsNull, Like, Repository, TreeRepository } from 'typeorm';
 import { PathType } from './constants/path-type';
 import { IPaginationOptions } from 'src/types';
 import { FileDetail } from './entities/file-detail.entity';
-import { max } from 'lodash';
+import { isBoolean, max } from 'lodash';
+import { GetAllFDto } from './dto/get-all-f.dto';
 
 @Injectable()
 export class FsService {
@@ -72,12 +73,17 @@ export class FsService {
     });
   }
 
-  findAll() {
+  findAll(query:GetAllFDto) {
+    const boolMap = {
+      'true': true,
+      'false': false
+    };
     return this.fRepository.find({
       relations: {
         creator: true,
         fileDetail: { file: true } 
-      } 
+      },
+      where: { favorite: boolMap[query.favorite] }
     });
   }
 
@@ -109,7 +115,8 @@ export class FsService {
   update(id: string, updateFDto: UpdateFDto) {
     return this.fRepository.update(id, {
       name: updateFDto.name ? updateFDto.name : undefined,
-      parent: updateFDto.parentId ? { id: updateFDto.parentId } : undefined
+      parent: updateFDto.parentId ? { id: updateFDto.parentId } : undefined,
+      favorite: isBoolean(updateFDto.favorite) ? updateFDto.favorite : undefined
     });
   }
 

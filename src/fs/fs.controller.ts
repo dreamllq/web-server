@@ -8,6 +8,7 @@ import { CreateFDto } from './dto/create-f.dto';
 import { UpdateFDto } from './dto/update-f.dto';
 import { FGetAllResponse } from './responses/get-all.res';
 import { FGetResponse } from './responses/get.res';
+import { GetAllFDto } from './dto/get-all-f.dto';
 
 @ApiTags('fs')
 @UseInterceptors(new TransformInterceptor())
@@ -33,8 +34,8 @@ export class FsController {
   @ApiOkResponse({ type: FGetAllResponse })
   @UseGuards(AuthGuard('jwt'))
   @Get()
-  findAll() {
-    return this.fsService.findAll();
+  findAll(@Query() query: GetAllFDto) {
+    return this.fsService.findAll(query);
   }
 
   @ApiOperation({

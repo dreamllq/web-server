@@ -14,6 +14,11 @@ export class CreateFDto {
     name: string;
 
   @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
+    favorite: boolean;
+
+  @ApiProperty()
   @IsNotEmpty()
   @IsString()
     parentId: string;
