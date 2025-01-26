@@ -40,6 +40,7 @@ import { DepartmentModule } from './department/department.module';
 import { LogModule } from './log/log.module';
 import { AiModule } from './ai/ai.module';
 import { FsModule } from './fs/fs.module';
+import { BiModule } from './bi/bi.module';
 
 @Module({
   imports: [
@@ -105,7 +106,8 @@ import { FsModule } from './fs/fs.module';
     DepartmentModule,
     LogModule,
     AiModule,
-    FsModule
+    FsModule,
+    BiModule
   ],
   controllers: [AppController],
   providers: [AppService]
