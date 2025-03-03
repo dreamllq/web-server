@@ -13,7 +13,7 @@ import { PaginateBiDataMetaDto } from './dto/paginate.dto';
 
 @ApiTags('biDataMeta')
 @UseInterceptors(new TransformInterceptor())
-@Controller('bi/data-meta')
+@Controller('bi/data/meta')
 export class BiDataMetaController {
   constructor(private readonly biDataMetaService: BiDataMetaService) {}
 
