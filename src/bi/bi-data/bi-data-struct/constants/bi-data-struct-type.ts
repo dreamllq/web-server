@@ -1,0 +1,12 @@
+export enum BiDataStructType {
+  TEXT='TEXT',
+  NUMBER='NUMBER',
+  DATE='DATE',
+  TIME='TIME',
+  DATETIME='DATETIME',
+  BOOLEAN='BOOLEAN',
+  OBJECT='OBJECT',
+  ARRAY='ARRAY',
+  NULL='NULL',
+  UNKNOWN='UNKNOWN'
+}
