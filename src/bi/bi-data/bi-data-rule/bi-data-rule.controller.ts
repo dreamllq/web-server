@@ -1,34 +1,52 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiOkResponse, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+
 import { BiDataRuleService } from './bi-data-rule.service';
 import { CreateBiDataRuleDto } from './dto/create-bi-data-rule.dto';
 import { UpdateBiDataRuleDto } from './dto/update-bi-data-rule.dto';
+import { BiDataRuleGetResponse } from './responses/get.res';
+import { SuccessResult } from 'src/common-model';
 
-@Controller('bi-data-rule')
+@ApiTags('biDataRule')
+@UseInterceptors(new TransformInterceptor())
+@Controller('bi/data')
 export class BiDataRuleController {
   constructor(private readonly biDataRuleService: BiDataRuleService) {}
 
-  @Post()
-  create(@Body() createBiDataRuleDto: CreateBiDataRuleDto) {
-    return this.biDataRuleService.create(createBiDataRuleDto);
+  @ApiOperation({
+    operationId: 'get',
+    summary: '获取指定id信息' 
+  })
+  @ApiOkResponse({ type: BiDataRuleGetResponse })
+  @ApiParam({ name: 'id' })
+  @UseGuards(AuthGuard('jwt'))
+  @Get('meta/:metaId/rule')
+  get(@Param('metaId') metaId) {
+    return this.biDataRuleService.findOne(metaId);
   }
 
-  @Get()
-  findAll() {
-    return this.biDataRuleService.findAll();
+  @ApiOperation({
+    operationId: 'create',
+    summary: '创建' 
+  })
+  @ApiOkResponse({ type: SuccessResult })
+  @UseGuards(AuthGuard('jwt'))
+  @Post('meta/:metaId/rule')
+  create(@Body() dto: CreateBiDataRuleDto, @Req() req, @Param('metaId') metaId: string) {
+    return this.biDataRuleService.create(metaId, dto);
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.biDataRuleService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBiDataRuleDto: UpdateBiDataRuleDto) {
-    return this.biDataRuleService.update(+id, updateBiDataRuleDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.biDataRuleService.remove(+id);
+    
+  @ApiOperation({
+    operationId: 'update',
+    summary: '更新指定id' 
+  })
+  @ApiOkResponse({ type: SuccessResult })
+  @ApiParam({ name: 'id' })
+  @UseGuards(AuthGuard('jwt'))
+  @Put('rule/:id')
+  update(@Param('id') id, @Body() dto: UpdateBiDataRuleDto) {
+    return this.biDataRuleService.update(id, dto);
   }
 }

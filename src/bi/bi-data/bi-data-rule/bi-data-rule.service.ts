@@ -1,26 +1,33 @@
-import { Injectable } from '@nestjs/common';
 import { CreateBiDataRuleDto } from './dto/create-bi-data-rule.dto';
 import { UpdateBiDataRuleDto } from './dto/update-bi-data-rule.dto';
-
+import { Injectable } from '@nestjs/common';
+import { Like, Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { BiDataRule } from './entities/bi-data-rule.entity';
 @Injectable()
 export class BiDataRuleService {
-  create(createBiDataRuleDto: CreateBiDataRuleDto) {
-    return 'This action adds a new biDataRule';
+  constructor(
+        @InjectRepository(BiDataRule)
+        private biDataRuleRepository: Repository<BiDataRule>,
+  ) {}
+  create(metaId: string, data:CreateBiDataRuleDto) {
+    return this.biDataRuleRepository.insert({
+      type: data.type,
+      excelFile: { id: data.excelFile.id },
+      sql: data.sql,
+      meta: { id: metaId }
+    });
   }
-
-  findAll() {
-    return `This action returns all biDataRule`;
+    
+  findOne(metaId: string) {
+    return this.biDataRuleRepository.findOne({ where: { meta: { id: metaId } } });
   }
-
-  findOne(id: number) {
-    return `This action returns a #${id} biDataRule`;
-  }
-
-  update(id: number, updateBiDataRuleDto: UpdateBiDataRuleDto) {
-    return `This action updates a #${id} biDataRule`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} biDataRule`;
+    
+  update(id:string, data:UpdateBiDataRuleDto) {
+    return this.biDataRuleRepository.update(id, {
+      type: data.type,
+      excelFile: { id: data.excelFile.id },
+      sql: data.sql
+    });
   }
 }

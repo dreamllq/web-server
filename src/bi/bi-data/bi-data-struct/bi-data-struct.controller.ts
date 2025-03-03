@@ -57,7 +57,7 @@ export class BiDataStructController {
   @ApiOkResponse({ type: SuccessResult })
   @ApiParam({ name: 'id' })
   @UseGuards(AuthGuard('jwt'))
-  @Delete('/struct/:id')
+  @Delete('struct/:id')
   remove(@Param('id') id) {
     return this.biDataStructService.remove(id);
   }
@@ -69,7 +69,7 @@ export class BiDataStructController {
   @ApiOkResponse({ type: SuccessResult })
   @ApiParam({ name: 'id' })
   @UseGuards(AuthGuard('jwt'))
-  @Put('/struct/:id')
+  @Put('struct/:id')
   update(@Param('id') id, @Body() dto: UpdateBiDataStructDto) {
     return this.biDataStructService.update(id, dto);
   }
