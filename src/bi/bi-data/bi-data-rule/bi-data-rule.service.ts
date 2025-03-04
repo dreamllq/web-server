@@ -13,7 +13,7 @@ export class BiDataRuleService {
   create(metaId: string, data:CreateBiDataRuleDto) {
     return this.biDataRuleRepository.insert({
       type: data.type,
-      excelFile: { id: data.excelFile.id },
+      excelFile: data.excelFile,
       sql: data.sql,
       meta: { id: metaId }
     });
@@ -26,7 +26,7 @@ export class BiDataRuleService {
   update(id:string, data:UpdateBiDataRuleDto) {
     return this.biDataRuleRepository.update(id, {
       type: data.type,
-      excelFile: { id: data.excelFile.id },
+      excelFile: data.excelFile,
       sql: data.sql
     });
   }

@@ -19,7 +19,6 @@ export class CreateBiDataRuleDto {
 
   @ApiProperty()
   @IsOptional()
-  @IsString()
     excelFile: File;
 
   @ApiProperty()

@@ -20,7 +20,7 @@ export class BiDataRuleController {
     summary: '获取指定id信息' 
   })
   @ApiOkResponse({ type: BiDataRuleGetResponse })
-  @ApiParam({ name: 'id' })
+  @ApiParam({ name: 'metaId' })
   @UseGuards(AuthGuard('jwt'))
   @Get('meta/:metaId/rule')
   get(@Param('metaId') metaId) {
@@ -32,9 +32,10 @@ export class BiDataRuleController {
     summary: '创建' 
   })
   @ApiOkResponse({ type: SuccessResult })
+  @ApiParam({ name: 'metaId' })
   @UseGuards(AuthGuard('jwt'))
   @Post('meta/:metaId/rule')
-  create(@Body() dto: CreateBiDataRuleDto, @Req() req, @Param('metaId') metaId: string) {
+  create(@Body() dto: CreateBiDataRuleDto, @Param('metaId') metaId: string) {
     return this.biDataRuleService.create(metaId, dto);
   }
     
@@ -46,7 +47,7 @@ export class BiDataRuleController {
   @ApiParam({ name: 'id' })
   @UseGuards(AuthGuard('jwt'))
   @Put('rule/:id')
-  update(@Param('id') id, @Body() dto: UpdateBiDataRuleDto) {
+  update(@Param('id') id:string, @Body() dto: UpdateBiDataRuleDto) {
     return this.biDataRuleService.update(id, dto);
   }
 }
