@@ -1,12 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { BiDataStruct } from '../../bi-data-struct/entities/bi-data-struct.entity';
 
-class Column {
-  
+class BiDataViewColumn {
+  @ApiProperty()
+    field: string;
+
+  @ApiProperty()
+    headerName: string;
+    
+  @ApiProperty({ type: BiDataStruct })
+    struct:BiDataStruct;
 }
 
 class DataView {
-  @ApiProperty({ type: [Column] })
-    columns: Column[];
+  @ApiProperty({ type: [BiDataViewColumn] })
+    columns: BiDataViewColumn[];
 
   @ApiProperty({ type: [Object] })
     data: Record<string, any>[];
