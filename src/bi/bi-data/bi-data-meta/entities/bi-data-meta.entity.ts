@@ -20,12 +20,11 @@ export class BiDataMeta {
     desc: string;  
     
   @ApiProperty({ type: [BiDataStruct] })
-  @OneToMany(() => BiDataStruct, (comment) => comment.meta)
+  @OneToMany(() => BiDataStruct, (struct) => struct.meta)
     structs: BiDataStruct[];
 
   @ApiProperty({ type: () => BiDataRule })
-  @OneToOne(() => BiDataRule)
-  @JoinColumn()
+  @OneToOne(() => BiDataRule, (rule) => rule.meta)
     rule: BiDataRule;
 
   @ApiProperty({ type: () => User })

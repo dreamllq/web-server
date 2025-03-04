@@ -7,6 +7,7 @@ import { BiDataMeta } from './entities/bi-data-meta.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([BiDataMeta])],
   controllers: [BiDataMetaController],
-  providers: [BiDataMetaService]
+  providers: [BiDataMetaService],
+  exports: [BiDataMetaService]
 })
 export class BiDataMetaModule {}

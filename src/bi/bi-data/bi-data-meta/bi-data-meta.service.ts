@@ -31,7 +31,11 @@ export class BiDataMetaService {
   findOne(id: string) {
     return this.biDataMetaRepository.findOne({
       where: { id },
-      relations: { creator: true } 
+      relations: {
+        creator: true,
+        structs: true,
+        rule: { excelFile: true }
+      } 
     });
   }
   
