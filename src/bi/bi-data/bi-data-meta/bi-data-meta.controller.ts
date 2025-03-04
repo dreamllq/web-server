@@ -75,10 +75,7 @@ export class BiDataMetaController {
   @UseGuards(AuthGuard('jwt'))
   @Put(':id')
   update(@Param('id') id, @Body() dto: UpdateBiDataMetaDto) {
-    return this.biDataMetaService.update(id, {
-      name: dto.name,
-      desc: dto.desc
-    });
+    return this.biDataMetaService.update(id, dto);
   }
 
   @ApiOperation({

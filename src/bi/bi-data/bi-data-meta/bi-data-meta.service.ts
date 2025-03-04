@@ -39,7 +39,7 @@ export class BiDataMetaService {
     });
   }
   
-  update(id, data:{name: string, desc:string}) {
+  update(id:string, data:UpdateBiDataMetaDto) {
     return this.biDataMetaRepository.update(id, {
       name: data.name,
       desc: data.desc 
