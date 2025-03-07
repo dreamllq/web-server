@@ -21,6 +21,7 @@ export class BiDataViewService {
 
       biDataMeta.structs.forEach((struct, index) => {
         data.columns[index].struct = struct;
+        data.columns[index].headerName = struct.name;
       });
       return data;
     } else if (biDataMeta.rule?.type === BiDataRuleType.SQL) {

@@ -11,7 +11,10 @@ export class BiDataStructService {
         private biDataStructRepository: Repository<BiDataStruct>,
   ) {}
   findAll(metaId:string) {
-    return this.biDataStructRepository.find({ where: { meta: { id: metaId } } });
+    return this.biDataStructRepository.find({
+      where: { meta: { id: metaId } },
+      order: { createDate: 'ASC' } 
+    });
   }
     
   create(metaId:string, data:CreateBiDataStructDto) {

@@ -35,7 +35,8 @@ export class BiDataMetaService {
         creator: true,
         structs: true,
         rule: { excelFile: true }
-      } 
+      },
+      order: { structs: { createDate: 'ASC' } }
     });
   }
   
