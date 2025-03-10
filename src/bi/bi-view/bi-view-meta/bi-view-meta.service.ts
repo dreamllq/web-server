@@ -1,26 +1,63 @@
 import { Injectable } from '@nestjs/common';
+import { Like, Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { IPaginationOptions } from 'src/types';
 import { CreateBiViewMetaDto } from './dto/create-bi-view-meta.dto';
 import { UpdateBiViewMetaDto } from './dto/update-bi-view-meta.dto';
+import { BiViewMeta } from './entities/bi-view-meta.entity';
 
 @Injectable()
 export class BiViewMetaService {
-  create(createBiViewMetaDto: CreateBiViewMetaDto) {
-    return 'This action adds a new biViewMeta';
-  }
-
+  constructor(
+      @InjectRepository(BiViewMeta)
+      private biViewMetaRepository: Repository<BiViewMeta>,
+  ) {}
   findAll() {
-    return `This action returns all biViewMeta`;
+    return this.biViewMetaRepository.find({ relations: { creator: true } });
   }
-
-  findOne(id: number) {
-    return `This action returns a #${id} biViewMeta`;
+  
+  create(data:CreateBiViewMetaDto & {creatorId: string}) {
+    return this.biViewMetaRepository.insert({
+      name: data.name,
+      desc: data.desc,
+      creator: { id: data.creatorId }
+    });
   }
-
-  update(id: number, updateBiViewMetaDto: UpdateBiViewMetaDto) {
-    return `This action updates a #${id} biViewMeta`;
+  
+  remove(id:string) {
+    return this.biViewMetaRepository.delete(id);
   }
-
-  remove(id: number) {
-    return `This action removes a #${id} biViewMeta`;
+  
+  findOne(id: string) {
+    return this.biViewMetaRepository.findOne({
+      where: { id },
+      relations: { creator: true }
+    });
+  }
+  
+  update(id:string, data:UpdateBiViewMetaDto) {
+    return this.biViewMetaRepository.update(id, {
+      name: data.name,
+      desc: data.desc 
+    });
+  }
+  
+  async paginate(options: IPaginationOptions, filter: { name: string, creatorId?: string }) {
+    const where: Parameters<typeof this.biViewMetaRepository.findAndCount>[0]['where'] = { name: Like(`%${filter.name}%`) };
+      
+    if (filter.creatorId) {
+      where.creator = { id: filter.creatorId }; 
+    }
+    const [list, count] = await this.biViewMetaRepository.findAndCount({
+      where,
+      order: { createDate: 'DESC' },
+      skip: (options.pageNo - 1) * options.pageSize,
+      take: options.pageSize,
+      relations: { creator: true }
+    });
+    return {
+      list,
+      count 
+    };
   }
 }
