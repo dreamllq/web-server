@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from 'src/users/user.entity';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { BiViewSetting } from '../../bi-view-setting/entities/bi-view-setting.entity';
 
 @Entity()
 export class BiViewMeta {
@@ -15,6 +16,10 @@ export class BiViewMeta {
   @ApiProperty({ description: '描述' })
   @Column()
     desc: string;  
+    
+  @ApiProperty({ type: () => BiViewSetting })
+  @OneToOne(() => BiViewSetting)
+    viewSetting: BiViewSetting;
     
   @ApiProperty({ type: () => User })
   @ManyToOne(() => User)
