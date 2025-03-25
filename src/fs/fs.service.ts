@@ -154,4 +154,8 @@ export class FsService {
       count 
     };
   }
+
+  unzipFile(id:string) {
+    
+  }
 }

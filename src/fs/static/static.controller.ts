@@ -1,13 +1,14 @@
 import { Controller, Get, Param, Req, Res, StreamableFile } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiProduces, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiProduces, ApiResponse, ApiTags, ApiExcludeEndpoint } from '@nestjs/swagger';
 import { FsService } from '../fs.service';
 const mime = require('mime');
 
 @ApiTags('f-static')
 @Controller('fs/static')
-export class StaticController {
+export class FsStaticController {
   constructor(private readonly fsService: FsService) {}
 
+  @ApiExcludeEndpoint(true)
   @Get('*')
   async static(@Req() req:Request, @Res({ passthrough: true }) res) {
     const f = await this.fsService.findByPath(req.url.replace('/api/fs/static/', ''));

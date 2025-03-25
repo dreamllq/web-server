@@ -9,7 +9,6 @@ import { UpdateFDto } from './dto/update-f.dto';
 import { FGetAllResponse } from './responses/get-all.res';
 import { FGetResponse } from './responses/get.res';
 import { GetAllFDto } from './dto/get-all-f.dto';
-const mime = require('mime');
 
 @ApiTags('fs')
 @UseInterceptors(new TransformInterceptor())
@@ -84,5 +83,17 @@ export class FsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.fsService.remove(id);
+  }
+
+  @ApiOperation({
+    summary: '解压',
+    operationId: 'unzip'
+  })
+  @ApiParam({ name: 'id' })
+  @ApiOkResponse({ type: SuccessResult })
+  @UseGuards(AuthGuard('jwt'))
+  @Post(':id')
+  unzip(@Param('id') id: string) {
+    return this.fsService.unzipFile(id);
   }
 }
