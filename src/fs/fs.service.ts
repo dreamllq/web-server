@@ -112,6 +112,21 @@ export class FsService {
     });
   }
 
+  async findByPath(path: string) {
+    const keys = path.split('/');
+    const f = await keys.reduce<Promise<F>>(async (acc:Promise<F>, key:string, index) => {
+      const fRes = await acc;
+      return await this.fRepository.findOne({
+        where: {
+          parent: { id: fRes.id },
+          name: (index === keys.length - 1) ? decodeURI(key).split('.')[0] : decodeURI(key)
+        },
+        relations: { fileDetail: { file: { content: true } } }
+      });
+    }, (() => this.fRepository.findOne({ where: { parent: IsNull() } }))());
+    return f;
+  }
+
   update(id: string, updateFDto: UpdateFDto) {
     return this.fRepository.update(id, {
       name: updateFDto.name ? updateFDto.name : undefined,

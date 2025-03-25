@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Req, Res, StreamableFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 import { AuthGuard } from '@nestjs/passport';
@@ -9,6 +9,7 @@ import { UpdateFDto } from './dto/update-f.dto';
 import { FGetAllResponse } from './responses/get-all.res';
 import { FGetResponse } from './responses/get.res';
 import { GetAllFDto } from './dto/get-all-f.dto';
+const mime = require('mime');
 
 @ApiTags('fs')
 @UseInterceptors(new TransformInterceptor())

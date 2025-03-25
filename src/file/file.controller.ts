@@ -48,13 +48,13 @@ export class FileController {
     };
   }
 
-   @ApiOperation({
-     summary: '获取id文件信息',
-     operationId: 'get'
-   })
-    @ApiParam({ name: 'id' })
-    @ApiOkResponse({ type: FileGetResponse })
-    @Get(':id')
+  @ApiOperation({
+    summary: '获取id文件信息',
+    operationId: 'get'
+  })
+  @ApiParam({ name: 'id' })
+  @ApiOkResponse({ type: FileGetResponse })
+  @Get(':id')
   get(@Param('id') id) {
     return this.fileService.findOne(id);
   }
