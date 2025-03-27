@@ -9,6 +9,8 @@ import { IPaginationOptions } from 'src/types';
 import { FileDetail } from './entities/file-detail.entity';
 import { isBoolean, max } from 'lodash';
 import { GetAllFDto } from './dto/get-all-f.dto';
+const yauzl = require('yauzl');
+import { FileService } from 'src/file/file.service';
 
 @Injectable()
 export class FsService {
@@ -17,6 +19,7 @@ export class FsService {
     private fRepository: TreeRepository<F>,
     @InjectRepository(FileDetail)
     private fileDetailRepository: Repository<FileDetail>,
+    private readonly fileService: FileService,
   ) {}
 
   /**
@@ -24,7 +27,7 @@ export class FsService {
    * @param createFDto 
    * @returns 
    */
-  async getFileName (createFDto: CreateFDto) {
+  async getFileName (createFDto: {name:string, parentId:string}) {
     const fileRes = await this.fRepository.findOne({
       where: {
         name: createFDto.name,
@@ -116,10 +119,11 @@ export class FsService {
     const keys = path.split('/');
     const f = await keys.reduce<Promise<F>>(async (acc:Promise<F>, key:string, index) => {
       const fRes = await acc;
+      const name = decodeURI(key);
       return await this.fRepository.findOne({
         where: {
           parent: { id: fRes.id },
-          name: (index === keys.length - 1) ? decodeURI(key).split('.')[0] : decodeURI(key)
+          name: (index === keys.length - 1) ? name.split('.').splice(0, name.split('.').length - 1).join('.') : name
         },
         relations: { fileDetail: { file: { content: true } } }
       });
@@ -155,7 +159,118 @@ export class FsService {
     };
   }
 
-  unzipFile(id:string) {
+  async unzipFile(id:string, options:{creator:string}) {
+    const f = await this.fRepository.findOne({ 
+      where: { id },
+      relations: {
+        fileDetail: { file: { content: true } },
+        parent: true 
+      }
+    });
+
+    const list = await unzipBuffer(f.fileDetail.file.content.buffer);
+    const name = await this.getFileName({
+      name: f.name,
+      parentId: f.parent.id 
+    });
+
+    // console.log(name);
+    list.forEach(item => {
+      const names = item.originalname.split('/');
+      names[0] = name;
+      item.originalname = names.join('/');
+    });
     
+    await list.reduce<Promise<void>>(async (acc, item) => {
+      await acc;
+
+      const fileId = await this.fileService.create(item as Express.Multer.File);
+      const names = item.originalname.split('/');
+
+      let parentId = f.parent.id;
+      return names.reduce<Promise<void>>(async (acc, item, index) => {
+        await acc;
+
+        let pathType = PathType.DIR;
+        if (index === names.length - 1) {
+          pathType = PathType.FILE;
+        }
+        // 判断当前时候有此文件
+        const f1 = await this.fRepository.findOne({
+          where: {
+            name: pathType === PathType.FILE ? item.split('.').splice(0, item.split('.').length - 1).join('.') : item,
+            parent: { id: parentId }
+          } 
+        });
+
+        if (f1) {
+          parentId = f1.id;
+        } else {
+          // 创建次文件
+          
+          let res = null;
+
+          if (pathType === PathType.FILE) {
+            res = await this.fileDetailRepository.insert({ file: { id: fileId } });
+          }
+
+          const newF = await this.fRepository.insert({
+            name: pathType === PathType.FILE ? item.split('.').splice(0, item.split('.').length - 1).join('.') : item,
+            parent: { id: parentId },
+            pathType: pathType,
+            fileDetail: pathType === PathType.FILE ? { id: res.identifiers[0].id } : undefined,
+            creator: { id: options.creator }
+          });
+          
+          parentId = newF.identifiers[0].id;
+        }
+        
+      }, Promise.resolve());
+    }, Promise.resolve());
   }
+}
+
+
+function unzipBuffer(zipBuffer: Buffer): Promise<{originalname:string, buffer: Buffer, size: number}[]> {
+  return new Promise((resolve, reject) => {
+    // 从Buffer打开ZIP文件
+    yauzl.fromBuffer(zipBuffer, { lazyEntries: true }, function(err, zipfile) {
+      if (err) return reject(err);
+
+      const fileDataList = [];
+
+      zipfile.on('entry', function(entry) {
+        // 忽略目录条目
+        if (entry.fileName.endsWith('/')) {
+          zipfile.readEntry(); // 继续下一个条目
+          return;
+        }
+
+        // 获取文件内容
+        zipfile.openReadStream(entry, function(err, readStream) {
+          if (err) return reject(err);
+
+          const chunks = [];
+          readStream.on('data', function(chunk) {
+            chunks.push(chunk);
+          });
+          readStream.on('end', function() {
+            const fileData = Buffer.concat(chunks);
+            fileDataList.push({
+              buffer: fileData,
+              size: entry.uncompressedSize,
+              originalname: entry.fileName
+              // 可以在这里添加更多文件信息，如uncompressedSize, modifiedTime等
+            });
+
+            zipfile.readEntry(); // 继续下一个条目
+          });
+        });
+      });
+
+      zipfile.once('error', reject);
+      zipfile.once('end', () => resolve(fileDataList));
+      zipfile.readEntry(); // 开始读取第一个条目
+    });
+  });
 }

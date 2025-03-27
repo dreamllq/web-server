@@ -26,7 +26,13 @@ export class FileService {
     });
     const { ext } = await (async () => {
       const { fileTypeFromBuffer } = await loadEsm<typeof import('file-type')>('file-type');
-      return await fileTypeFromBuffer(file.buffer);
+      const data = await fileTypeFromBuffer(file.buffer);
+      if (data && data.ext) {
+        return data;
+      } else {
+        const name = Buffer.from(file.originalname, 'latin1').toString('utf8').split('.');
+        return { ext: name[name.length - 1] };
+      }
     })();
 
     if (f) {

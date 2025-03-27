@@ -92,8 +92,8 @@ export class FsController {
   @ApiParam({ name: 'id' })
   @ApiOkResponse({ type: SuccessResult })
   @UseGuards(AuthGuard('jwt'))
-  @Post(':id')
-  unzip(@Param('id') id: string) {
-    return this.fsService.unzipFile(id);
+  @Post('unzip/:id')
+  unzip(@Param('id') id: string, @Req() req) {
+    return this.fsService.unzipFile(id, { creator: req.user.id });
   }
 }
