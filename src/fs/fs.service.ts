@@ -7,7 +7,7 @@ import { IsNull, Like, Repository, TreeRepository } from 'typeorm';
 import { PathType } from './constants/path-type';
 import { IPaginationOptions } from 'src/types';
 import { FileDetail } from './entities/file-detail.entity';
-import { isBoolean, max } from 'lodash';
+import { cloneDeep, isBoolean, max } from 'lodash';
 import { GetAllFDto } from './dto/get-all-f.dto';
 const yauzl = require('yauzl');
 import { FileService } from 'src/file/file.service';
@@ -139,8 +139,50 @@ export class FsService {
     });
   }
 
-  remove(id: string) {
-    return this.fRepository.delete(id);
+  async remove(id: string) {
+    const f = await this.fRepository.findOne({ where: { id } });
+    if (f.pathType === PathType.FILE) {
+      return this.fRepository.delete(id);
+    } else {
+      const tree = await this.fRepository.findDescendantsTree(f, { relations: ['fileDetail'] });
+      const flatFs = this.treeFlatChildren(tree);
+
+      await flatFs.fs.reduce(async (acc, item) => {
+        console.log(item.id);
+        
+        await acc;
+        await this.fRepository.remove(item);
+      }, Promise.resolve());
+
+      await this.fileDetailRepository.remove(flatFs.files.map(item => item.fileDetail));
+    }
+  }
+
+  treeFlatChildren (tree:F) {
+    const files:F[] = [];
+    const fs:F[] = [];
+
+    const walk = (item:F) => {
+
+      if (item.pathType === PathType.FILE) {
+        files.push(item);
+      } 
+      fs.unshift(item);
+      
+      
+      if (item.children.length > 0) {
+        item.children.forEach(child => {
+          walk(child);
+        });
+      }
+    };
+
+    walk(tree);
+
+    return {
+      files,
+      fs 
+    };
   }
 
   async paginate(options: IPaginationOptions) {
@@ -227,6 +269,20 @@ export class FsService {
         
       }, Promise.resolve());
     }, Promise.resolve());
+  }
+
+  async getParentPath(id: string) {
+    const f = await this.fRepository.findOne({ where: { id } });
+    const res = await this.fRepository.findAncestorsTree(f);
+
+    const flat = [];
+    let current = res;
+    while (current.parent) {
+      flat.unshift(cloneDeep(current.parent));
+      current = current.parent;
+    }
+
+    return flat;
   }
 }
 

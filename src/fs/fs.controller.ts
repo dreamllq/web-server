@@ -96,4 +96,16 @@ export class FsController {
   unzip(@Param('id') id: string, @Req() req) {
     return this.fsService.unzipFile(id, { creator: req.user.id });
   }
+
+  @ApiOperation({
+    summary: '获取祖先列表',
+    operationId: 'getParentPath'
+  })
+  @ApiParam({ name: 'id' })
+  @ApiOkResponse({ type: FGetAllResponse })
+  @UseGuards(AuthGuard('jwt'))
+  @Get(':id/parents')
+  parents(@Param('id') id: string) {
+    return this.fsService.getParentPath(id);
+  }
 }
