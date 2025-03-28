@@ -11,7 +11,7 @@ import { cloneDeep, isBoolean, max } from 'lodash';
 import { GetAllFDto } from './dto/get-all-f.dto';
 const yauzl = require('yauzl');
 import { FileService } from 'src/file/file.service';
-
+import puppeteer from 'puppeteer';
 @Injectable()
 export class FsService {
   constructor(
@@ -255,6 +255,26 @@ export class FsService {
     }
 
     return flat;
+  }
+
+  async exportImage(url:string) {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+
+    await page.goto(url);
+    await page.setViewport({
+      width: 1080,
+      height: 1024 
+    });
+    const buffer = Buffer.from(await page.pdf());
+    const title = await page.title();
+    const fileId = await this.fileService.create({
+      buffer,
+      originalname: `${title}.pdf`,
+      size: buffer.length 
+    } as Express.Multer.File);
+    await browser.close();
+    return fileId;
   }
 }
 

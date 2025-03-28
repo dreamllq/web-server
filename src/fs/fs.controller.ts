@@ -108,4 +108,15 @@ export class FsController {
   parents(@Param('id') id: string) {
     return this.fsService.getParentPath(id);
   }
+
+  @ApiOperation({
+    summary: '导出图片',
+    operationId: 'exportImage'
+  })
+  @ApiOkResponse({ type: SuccessResult })
+  @UseGuards(AuthGuard('jwt'))
+  @Get('export/image')
+  exportImage(@Query('url') url: string) {
+    return this.fsService.exportImage(url);
+  }
 }
