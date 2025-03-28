@@ -145,11 +145,9 @@ export class FsService {
       return this.fRepository.delete(id);
     } else {
       const tree = await this.fRepository.findDescendantsTree(f, { relations: ['fileDetail'] });
-      const flatFs = this.treeFlatChildren(tree);
+      const flatFs = treeFlatChildren(tree);
 
       await flatFs.fs.reduce(async (acc, item) => {
-        console.log(item.id);
-        
         await acc;
         await this.fRepository.remove(item);
       }, Promise.resolve());
@@ -158,32 +156,6 @@ export class FsService {
     }
   }
 
-  treeFlatChildren (tree:F) {
-    const files:F[] = [];
-    const fs:F[] = [];
-
-    const walk = (item:F) => {
-
-      if (item.pathType === PathType.FILE) {
-        files.push(item);
-      } 
-      fs.unshift(item);
-      
-      
-      if (item.children.length > 0) {
-        item.children.forEach(child => {
-          walk(child);
-        });
-      }
-    };
-
-    walk(tree);
-
-    return {
-      files,
-      fs 
-    };
-  }
 
   async paginate(options: IPaginationOptions) {
     const [list, count] = await this.fRepository.findAndCount({
@@ -329,4 +301,32 @@ function unzipBuffer(zipBuffer: Buffer): Promise<{originalname:string, buffer: B
       zipfile.readEntry(); // 开始读取第一个条目
     });
   });
+}
+
+
+function treeFlatChildren (tree:F) {
+  const files:F[] = [];
+  const fs:F[] = [];
+
+  const walk = (item:F) => {
+
+    if (item.pathType === PathType.FILE) {
+      files.push(item);
+    } 
+    fs.unshift(item);
+    
+    
+    if (item.children.length > 0) {
+      item.children.forEach(child => {
+        walk(child);
+      });
+    }
+  };
+
+  walk(tree);
+
+  return {
+    files,
+    fs 
+  };
 }
