@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Headers, Param, Patch, Post, Put, Query, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiOkResponse, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
@@ -91,5 +91,22 @@ export class BiViewMetaController {
       pageNo: dto.pageNo,
       pageSize: dto.pageSize
     }, { name: dto.name || '' });
+  }
+
+  @ApiOperation({
+    summary: '导出',
+    operationId: 'exportImage'
+  })
+  @ApiOkResponse({ type: SuccessResult })
+  @UseGuards(AuthGuard('jwt'))
+  @ApiParam({ name: 'id' })
+  @Get('export/metaId/:id/image')
+  exportImage(@Param('id') id: string, @Req() req: Request) {
+    const token = req.headers['authorization'].replace('Bearer ', '');
+    const host = req.headers['host'];
+    return this.biViewMetaService.exportImage({
+      url: `http://${host}/web/full/bi-view-export?id=${id}`,
+      token 
+    });
   }
 }
